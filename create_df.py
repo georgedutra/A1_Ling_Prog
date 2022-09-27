@@ -25,6 +25,26 @@ def make_MultiIndex(dic):
     multi_index=pd.MultiIndex.from_frame(df)
     return multi_index
 
+def make_df(dic):
+    """Creates the pandas DataFrame that will be used for all data analysis.
+
+    :param dic: A dictionary of dictionaries, where the keys of the most external 
+    dictionary are the albums and its values are dictionaries. In the internal dictionaries, 
+    the keys of each one of them are the columns or indexes of the pandas DataFrame to be built.
+    :type dic: dict
+    :return: Pandas DataFrame object
+    :rtype: pandas.core.frame.DataFrame
+    """    
+    main_dic_key=list(dic.keys())[0]
+    sub_dic_keys=list(dic[main_dic_key].keys())
+    df=pd.DataFrame(columns=sub_dic_keys).drop("musics", axis=1)
+    for key in dic.keys():
+        data=dic[key]
+        partial_df=pd.DataFrame(data).drop("musics", axis=1)
+        df=pd.concat([df,partial_df])
+    df_final=df.set_index(make_MultiIndex(dic))
+    return df_final
+
 
 
 
