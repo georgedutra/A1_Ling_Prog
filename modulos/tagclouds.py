@@ -1,23 +1,48 @@
-from tkinter import N
-import wordcloud as wc
 import numpy as np
 import pandas as pd
+
+import wordcloud as wc
 import matplotlib.pyplot as plt
 import multidict as mdic
 
-def lyrics_albuns(df):
-    """Recebe um dataframe de músicas com Multi-Index de nível 1 = Album e nível 2 = Nome, e retorna um dicionário com os albuns como chaves e uma string como valor com as letras de todas as músicas do álbum concatenadas. 
+def lyrics_concat(df):
+    """Recebe um DataFrame de músicas e retorna uma string com todas as lyrics concatenadas
 
-    Args:
-        df (pd.DataFrame): DataFrame com Multi-Index de dois níveis, sendo o primeiro o nome dos álbuns, e o segundo, o nome das músicas
+    :param df: DataFrame de músicas com uma coluna 'Lyric' que possui as letras de cada música como string
+    :type df: pandas.DataFrame
+    :return: string com todas as letras de músicas do artista ou banda concatenadas
+    :rtype: str
     """
-    # Criando um set e armazenando nele os nomes de todos os álbuns que aparecem no df
-    set_albuns = set()
-    for indice in df.index:
-        set_albuns.add(indice[0])
-    # Acessando o dataframe álbum por álbum através dos nomes armazenados no set
-    for album in set_albuns:
-        print(df.xs(f"{album}"))
+    lista_lyrics = list(df["Lyric"])
+    string_concatenada = " ".join(lista_lyrics)
+    return string_concatenada
+
+def lyrics_albuns(df):
+    """Recebe um dataframe de músicas e retorna um dicionário com os nomes dos albuns como chaves e uma string como valor com as letras de todas as músicas do álbum concatenadas. 
+
+    :param df: Dataframe com um Multi-Index 'Album' (nome do álbum o qual a música pertence), e uma coluna 'Lyric' com as letras de cada música como strings
+    :type df: pandas.DataFrame
+    :return: Dicionário com keys sendo os nomes de cada álbum da banda, e values sendo uma string de todas as letras das músicas do álbum concatenadas
+    :rtype: dict
+    """
+
+    dict_lyrics = {} # Dicionário que será retornado no final
+    albuns = np.unique(df.index.get_level_values("Album")) # Cria um array com o nome de todos os álbuns
+    for nome_album in albuns:
+        dict_lyrics[nome_album] = lyrics_concat(df.xs(nome_album))
+    return dict_lyrics
+
+def nomes_musicas(df):
+    """Recebe um dataframe de músicas e retorna uma string com todos os nomes das músicas concatenadas
+
+    :param df: Dataframe com um Multi-Index 'Nome' (nome da música)
+    :type df: pandas.DataFrame
+    :return: string com todos os nomes das músicas concatenados
+    :rtype: str
+    """
+    lista_musicas = list(df.index.get_level_values("Nome"))
+    nomes_musicas = " ".join(lista_musicas)
+    return nomes_musicas
 
 
 
@@ -34,3 +59,5 @@ dados = [[1982, 2600000, "Lorem ipsum dolor sit amet, consectetur adipiscing eli
 [2016,3000000,"Integer in enim nibh. Curabitur consectetur purus commodo, pellentesque nulla ac, rhoncus turpis. Maecenas at dui eget tortor porta ornare."]]
 
 df = pd.DataFrame(dados, index=indices, columns=colunas)
+
+print(nomes_musicas(df))
