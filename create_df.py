@@ -1,10 +1,10 @@
 import pandas as pd
-import numpy as np
 
-dic={"album1":{"musics":["music11", "music21"], "duration":[0.55,0.65], 
-                "views":[1250,1200]},
-     "album2":{"musics":["music12", "music22"], "duration":[0.75,0.85], 
-                "views":[1150,1100]}}
+#Dummy dictionary for better understading
+# dic={"album1":{"musics":["music11", "music21"], "duration":[0.55,0.65], 
+#                 "views":[1250,1200]},
+#      "album2":{"musics":["music12", "music22"], "duration":[0.75,0.85], 
+#                 "views":[1150,1100]}}
 
 def make_MultiIndex(dic):
     """Creates a pandas MultiIndex object that will be used for further indexation of
@@ -49,7 +49,3 @@ def make_df(dic):
         df=pd.concat([df,partial_df])
     df_final=df.set_index(make_MultiIndex(dic))
     return df_final
-
-
-
-
