@@ -1,63 +1,58 @@
 import numpy as np
 import pandas as pd
-
+from PIL import Image
 import wordcloud as wc
-import matplotlib.pyplot as plt
-import multidict as mdic
+import multidict
 
 def lyrics_concat(df):
-    """Recebe um DataFrame de músicas e retorna uma string com todas as lyrics concatenadas
+    """Receives a DataFrame with musics and returns a string with every lyric concatenated
 
-    :param df: DataFrame de músicas com uma coluna 'Lyric' que possui as letras de cada música como string
+    :param df: musics DataFrame with one column 'Lyric' that has each music's lyrics as strings
     :type df: pandas.DataFrame
-    :return: string com todas as letras de músicas do artista ou banda concatenadas
+    :return: string with every artist's music lyrics concatenated
     :rtype: str
     """
-    lista_lyrics = list(df["Lyric"])
-    string_concatenada = " ".join(lista_lyrics)
-    return string_concatenada
+    lyrics_list = list(df["Lyric"])
+    concatenated_string = " ".join(lyrics_list)
+    return concatenated_string
 
 def lyrics_albuns(df):
-    """Recebe um dataframe de músicas e retorna um dicionário com os nomes dos albuns como chaves e uma string como valor com as letras de todas as músicas do álbum concatenadas. 
+    """Receives a dataframe with musics and return a dictionary with all albums names and all music's lyrics in each album concatenated as a string.
 
-    :param df: Dataframe com um Multi-Index 'Album' (nome do álbum o qual a música pertence), e uma coluna 'Lyric' com as letras de cada música como strings
+    :param df: Dataframe with an 'Album' Multi-Index (the name of the album each music belongs to), and a 'Lyric' column with each song's lyrics as strings
     :type df: pandas.DataFrame
-    :return: Dicionário com keys sendo os nomes de cada álbum da banda, e values sendo uma string de todas as letras das músicas do álbum concatenadas
+    :return: Dictionary with albums names as keys, and all music's lyrics in each album concatenated as a string, as the key's values.
     :rtype: dict
     """
 
-    dict_lyrics = {} # Dicionário que será retornado no final
-    albuns = np.unique(df.index.get_level_values("Album")) # Cria um array com o nome de todos os álbuns
-    for nome_album in albuns:
-        dict_lyrics[nome_album] = lyrics_concat(df.xs(nome_album))
+    dict_lyrics = {} # Dictionary to be returned in the end
+    albums = np.unique(df.index.get_level_values("Album")) # Creates an array with every album's names
+    for album_name in albums:
+        dict_lyrics[album_name] = lyrics_concat(df.xs(album_name))
     return dict_lyrics
 
-def nomes_musicas(df):
-    """Recebe um dataframe de músicas e retorna uma string com todos os nomes das músicas concatenadas
+def music_names(df):
+    """Receives a dataframe with musics and returns a concatenated string with every song's names
 
-    :param df: Dataframe com um Multi-Index 'Nome' (nome da música)
+    :param df: Dataframe with a Multi-Index called 'Music' (musics name)
     :type df: pandas.DataFrame
-    :return: string com todos os nomes das músicas concatenados
+    :return: string with all musics names concatenated
     :rtype: str
     """
-    lista_musicas = list(df.index.get_level_values("Nome"))
-    nomes_musicas = " ".join(lista_musicas)
-    return nomes_musicas
-
-
+    music_list = list(df.index.get_level_values("Music"))
+    concat_names = " ".join(music_list)
+    return concat_names
 
 ####################################################################################################################
-# criando um dataframe de exemplo enquanto nao tem o oficial
+# creating a fiction dataframe while I dont have the oficial one
 album = ["Album 1","Album 1","Album 2","Album 2"]
-nomes = ["Daddy Issues", "ABC", "DEF", "GHI"]
-indices = pd.MultiIndex.from_arrays([album, nomes], names=("Album", "Nome"))
-colunas = ["Lançamento", "Popularidade", "Lyric"]
+names = ["Daddy Issues", "ABC", "DEF", "GHI"]
+indexes = pd.MultiIndex.from_arrays([album, names], names=("Album", "Music"))
+columns = ["Released", "Popularity", "Lyric"]
 
 dados = [[1982, 2600000, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent molestie rhoncus risus. Phasellus augue quam"], 
 [2000,100000,"euismod vel neque eget, egestas finibus felis. Fusce facilisis odio tellus, eget sollicitudin lacus venenatis ut. Nulla laoreet magna tristique ante pharetra tincidunt."],
 [2007,600000,"usce facilisis odio tellus, eget sollicitudin lacus venenatis ut. Nulla laoreet magna tristique ante pha"],
 [2016,3000000,"Integer in enim nibh. Curabitur consectetur purus commodo, pellentesque nulla ac, rhoncus turpis. Maecenas at dui eget tortor porta ornare."]]
 
-df = pd.DataFrame(dados, index=indices, columns=colunas)
-
-print(nomes_musicas(df))
+df = pd.DataFrame(dados, index=indexes, columns=columns)
