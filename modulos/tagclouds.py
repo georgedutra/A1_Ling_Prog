@@ -3,6 +3,7 @@ import pandas as pd
 from PIL import Image
 import wordcloud as wc
 import multidict
+import re
 
 def lyrics_concat(df):
     """Receives a DataFrame with musics and returns a string with every lyric concatenated
@@ -34,7 +35,7 @@ def lyrics_albuns(df):
 def music_names(df):
     """Receives a dataframe with musics and returns a concatenated string with every song's names
 
-    :param df: Dataframe with a Multi-Index called 'Music' (musics name)
+    :param df: Dataframe with a Multi-Index called 'Music' (music's name)
     :type df: pandas.DataFrame
     :return: string with all musics names concatenated
     :rtype: str
@@ -42,6 +43,30 @@ def music_names(df):
     music_list = list(df.index.get_level_values("Music"))
     concat_names = " ".join(music_list)
     return concat_names
+
+def frequency(text):
+    """Receives a string, and returns a multidict with each word's frequency to create a WordCloud 
+
+    :param text: A string with the text wished to create the WordCloud
+    :type text: str
+    :return: A Multidict with words as keys and the word's frequencies as values
+    :rtype: multidict.MultiDict
+    """
+    frequency_multidict = multidict.MultiDict()
+    freq_dict = {}
+
+    for word in text.split(" "):
+        if re.match("a|the|an|the|to|in|for|of|or|by|with|is|on|that|be", word):
+            continue
+
+        appears = freq_dict.get(word, 0)
+        freq_dict[word.lower()] = appears + 1
+
+    for key in freq_dict:
+        frequency_multidict.add(key, freq_dict[key])
+
+    return frequency_multidict
+
 
 ####################################################################################################################
 # creating a fiction dataframe while I dont have the oficial one
@@ -56,3 +81,5 @@ dados = [[1982, 2600000, "Lorem ipsum dolor sit amet, consectetur adipiscing eli
 [2016,3000000,"Integer in enim nibh. Curabitur consectetur purus commodo, pellentesque nulla ac, rhoncus turpis. Maecenas at dui eget tortor porta ornare."]]
 
 df = pd.DataFrame(dados, index=indexes, columns=columns)
+
+print(frequency(lyrics_concat(df)))
