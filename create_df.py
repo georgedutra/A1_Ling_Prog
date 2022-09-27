@@ -35,8 +35,13 @@ def make_df(dic):
     :return: Pandas DataFrame object
     :rtype: pandas.core.frame.DataFrame
     """    
+    #get an arbitrary key of the main dictionary
     main_dic_key=list(dic.keys())[0]
+    #get all the keys of an arbitrary internal dictionary 
+    #(the sets of keys of any internal dictionary are the same)
     sub_dic_keys=list(dic[main_dic_key].keys())
+    #Creates an empty DataFrame with the internal dictionary keys as columns, 
+    #(except the "musics" key that will be part of the MultiIndex)
     df=pd.DataFrame(columns=sub_dic_keys).drop("musics", axis=1)
     for key in dic.keys():
         data=dic[key]
