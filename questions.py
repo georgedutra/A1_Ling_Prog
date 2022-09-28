@@ -3,13 +3,26 @@ import seaborn as sns
 import numpy as np
 from create_df import make_df,make_MultiIndex
 
-dic={"album1":{"Music":["music11", "music12","music13"], "duration":[0.55,0.65,0.54], 
+dic={"album1":{"Music":["music11", "music12","music13"], "duration":[0.55,0.65,0.84], 
                 "views":[1250,1200,1300], "popularity":[100,50,60]},
-     "album2":{"Music":["music21", "music22","music23"], "duration":[0.75,0.85,0.75], 
+     "album2":{"Music":["music21", "music22","music23"], "duration":[0.75,0.85,0.95], 
                 "views":[1150,1100,1050], "popularity":[80,30,60]}}
 
 
 sns.set_theme(context="paper", style="darkgrid")
+
+def set_highlight_palette(series, max_color = 'turquoise', min_color = "red", other_color = 'lightgrey'):
+    max_val = series.max()
+    min_val= series.min()
+    pal = []
+    for item in series:
+        if item == max_val:
+                pal.append(max_color)
+        elif item == min_val:
+                pal.append(min_color)
+        else:
+            pal.append(other_color)
+    return pal
 
 def song_popularity_album(dic):
     """Create a bar chart of each album to answer the question "which songs are most 
@@ -25,7 +38,7 @@ def song_popularity_album(dic):
 
     for album in albums:
         #Select the row of the DataFrame related to one specific album.
-        df_sliced=df.xs(album)
+        df_sliced=df.xs(album).sort_values("popularity", ascending=False)
         
         #The index of the most popular song (wich is the name of the song and the 
         #second level of MultiIndex).
@@ -35,8 +48,11 @@ def song_popularity_album(dic):
         #second level of MultiIndex).
         least_popular=df_sliced["popularity"].astype(float).idxmin()
 
+        
+
         #Seaborn to make the visualization.
-        plot=sns.barplot(data=df_sliced, x=df_sliced.index, y="popularity")
+        plot=sns.barplot(data=df_sliced, x=df_sliced.index, y="popularity",
+        palette=set_highlight_palette(df_sliced["popularity"]))
 
         #Y-axis label
         plot.set(ylabel="Popularity")
@@ -67,7 +83,7 @@ def song_duration_album(dic):
 
     for album in albums:
         #Select the row of the DataFrame related to one specific album.
-        df_sliced=df.xs(album)
+        df_sliced=df.xs(album).sort_values("duration", ascending=False)
         
         #The index of the longest song (wich is the name of the song and the 
         #second level of MultiIndex).
@@ -78,7 +94,8 @@ def song_duration_album(dic):
         shortest=df_sliced["duration"].astype(float).idxmin()
 
         #Seaborn to make the visualization.
-        plot=sns.barplot(data=df_sliced, x=df_sliced.index, y="duration")
+        plot=sns.barplot(data=df_sliced, x=df_sliced.index, y="duration",
+palette=set_highlight_palette(df_sliced["duration"]))
 
         #Y-axis label
         plot.set(ylabel="Duration")
@@ -94,3 +111,5 @@ bbox={"facecolor": "white", "pad": -10})
         #Save and close the plot.
         plt.savefig(f"imgs/{album}_duration.png")
         plt.close()
+
+#def song_popularity_all_times():
