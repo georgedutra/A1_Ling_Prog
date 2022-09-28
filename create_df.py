@@ -1,9 +1,9 @@
 import pandas as pd
 
 #Dummy dictionary for better understading
-# dic={"album1":{"musics":["music11", "music21"], "duration":[0.55,0.65], 
+# dic={"album1":{"Music":["music11", "music21"], "duration":[0.55,0.65], 
 #                 "views":[1250,1200]},
-#      "album2":{"musics":["music12", "music22"], "duration":[0.75,0.85], 
+#      "album2":{"Music":["music12", "music22"], "duration":[0.75,0.85], 
 #                 "views":[1150,1100]}}
 
 def make_MultiIndex(dic):
@@ -19,9 +19,9 @@ def make_MultiIndex(dic):
     """
     array=[]
     for key in dic.keys():
-        for elements in dic[key]["musics"]:
+        for elements in dic[key]["Music"]:
             array.append(list([key,elements]))
-    df=pd.DataFrame(array,columns=["albums","musics"])
+    df=pd.DataFrame(array,columns=["Album","Music"])
     multi_index=pd.MultiIndex.from_frame(df)
     return multi_index
 
@@ -41,11 +41,11 @@ def make_df(dic):
     #(the sets of keys of any internal dictionary are the same)
     sub_dic_keys=list(dic[main_dic_key].keys())
     #Creates an empty DataFrame with the internal dictionary keys as columns, 
-    #(except the "musics" key that will be part of the MultiIndex)
-    df=pd.DataFrame(columns=sub_dic_keys).drop("musics", axis=1)
+    #(except the "Music" key that will be part of the MultiIndex)
+    df=pd.DataFrame(columns=sub_dic_keys).drop("Music", axis=1)
     for key in dic.keys():
         data=dic[key]
-        partial_df=pd.DataFrame(data).drop("musics", axis=1)
+        partial_df=pd.DataFrame(data).drop("Music", axis=1)
         df=pd.concat([df,partial_df])
-    df_final=df.set_index(make_MultiIndex(dic))
-    return df_final
+    final_df=df.set_index(make_MultiIndex(dic))
+    return final_df
