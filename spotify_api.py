@@ -3,6 +3,8 @@ import datetime
 from urllib.parse import urlencode
 import base64
 
+TNBH = "77SW9BnxLY8rJ0RciFqkHh"
+
 class SpotifyAPI(object):
     """Class that defines the spotify object. Agregates all methods to make the requests to spotify API.
 
@@ -178,3 +180,97 @@ class SpotifyAPI(object):
         :rtype: dict
         """
         return self.get_resource(_id, resource_type="tracks")
+
+def make_request_albums(spotify, artist_id):
+    """Make the request using and spotify object and the artist id.
+
+    :param spotify: SpotifyAPI object.
+    :type spotify: SpotifyAPI object
+    :param artist_id: Artist ID on Spotify.
+    :type artist_id: str
+    :return: All artist's albums
+    :rtype: dict
+    """
+    return spotify.get_artist_albums(artist_id)
+    
+def make_request_tracks_from_album(spotify, album_id):
+    """Make the request using and spotify object and the album id.
+
+    :param spotify: SpotifyAPI object.
+    :type spotify: SpotifyAPI object
+    :param artist_id: Album ID on Spotify.
+    :type artist_id: str
+    :return: All album's tracks
+    :rtype: dict
+    """
+    return spotify.get_album_track(album_id)
+
+def make_request_track(spotify, track_id):
+    """Make the request using and spotify object and the track id.
+
+    :param spotify: SpotifyAPI object.
+    :type spotify: SpotifyAPI object
+    :param artist_id: Track ID on Spotify.
+    :type artist_id: str
+    :return: All track data.
+    :rtype: dict
+    """
+    return spotify.get_track(track_id)
+
+def get_albums_data():
+    """Function that makes the request to get all the albums ids and names of an artist.
+
+    :return: Tuple with the names and ids.
+    :rtype: tuple
+    """
+    spotify = SpotifyAPI()
+    albums = make_request_albums(spotify, TNBH)
+    albums_id = []
+    albums_name = []
+    for album in albums["items"]:
+        albums_id.append(album["id"])
+        albums_name.append(album["name"])
+    return (albums_name, albums_id)
+
+def get_albums_tracks():
+    """Function that makes the request to get all the tracks ids of an album.
+
+    :return: Tracks id and in wich album it is in.
+    :rtype: dict
+    """
+    spotify = SpotifyAPI()
+    albums_name, albums_id = get_albums_data()
+    tracks_from_album = dict()
+    for i in range(len(albums_id)):
+        tracks_id = []
+        for track in make_request_tracks_from_album(spotify, albums_id[i])["items"]:
+            tracks_id.append(track["id"])
+        tracks_from_album[albums_name[i]] = tracks_id
+    return tracks_from_album
+
+def get_tracks_data():
+    """Gets all the information we need about the tracks,
+
+    :return: The name, popularity, duration, explicit, track number and available markets of al tracks of an artist.
+    :rtype: dict
+    """
+    spotify = SpotifyAPI()
+    albums_tracks = get_albums_tracks()
+    tracks_data = dict()
+    for album in albums_tracks:
+        tracks_names = []
+        tracks_popularity = []
+        tracks_duration_ms = []
+        tracks_explicit = []
+        tracks_number = []
+        tracks_available_mkt = []
+        for track_id in albums_tracks[album]:
+            track_data = make_request_track(spotify, track_id)
+            tracks_names.append(track_data["name"])
+            tracks_popularity.append(track_data["popularity"])
+            tracks_duration_ms.append(track_data["duration_ms"])
+            tracks_explicit.append(track_data["explicit"])
+            tracks_number.append(track_data["track_number"])
+            tracks_available_mkt.append(track_data["available_markets"])
+        tracks_data[album] = {"tracks_names": tracks_names, "tracks_popularity":tracks_popularity, "tracks_duration_ms":tracks_duration_ms, "tracks_explicit":tracks_explicit, "tracks_number":tracks_number, "tracks_available_mkt": tracks_available_mkt}
+    return tracks_data
