@@ -1,12 +1,14 @@
+from os import makedirs
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+import pandas as pd
 from create_df import make_df,make_MultiIndex
 
 dic={"album1":{"Music":["music11", "music12","music13"], "duration":[0.55,0.65,0.84], 
                 "views":[1250,1200,1300], "popularity":[100,50,60]},
      "album2":{"Music":["music21", "music22","music23"], "duration":[0.75,0.85,0.95], 
-                "views":[1150,1100,1050], "popularity":[80,30,60]}}
+                "views":[1150,1100,1050], "popularity":[80,30,40]}}
 
 
 sns.set_theme(context="paper", style="darkgrid")
@@ -112,4 +114,26 @@ bbox={"facecolor": "white", "pad": -10})
         plt.savefig(f"imgs/{album}_duration.png")
         plt.close()
 
-#def song_popularity_all_times():
+def song_popularity_all_times(dic,n):
+    df = make_df(dic).sort_values("popularity", ascending=False)
+
+    #Set the "Music" level of MultiIndex as index.
+    df.index = df.index.get_level_values("Music")
+
+    #get head and tail of the DF and concat as a new DF
+    df_head=df.head(n)
+    df_tail=df.tail(n)
+    df=pd.concat((df_head,df_tail))
+    pal=[]
+    for i in range(n):
+        pal.append('turquoise')
+    for i in range(n):
+        pal.append('red')
+
+    plot=sns.barplot(data=df, x=df.index, y="popularity", palette=pal)
+
+    plot.set(ylabel="Popularity")
+    plt.savefig("imgs/Popularity_all_time.png")
+    plt.close()
+
+
