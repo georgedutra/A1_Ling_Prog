@@ -131,9 +131,43 @@ def song_popularity_all_times(dic,n):
         pal.append('red')
 
     plot=sns.barplot(data=df, x=df.index, y="popularity", palette=pal)
-
-    plot.set(ylabel="Popularity")
+    plot.set(ylabel="Popularity", xlabel="Songs")
+    plt.figtext(0.895, 0.85, f"{n} Most popular songs all times" , ha="right", fontsize=8)
+    plt.figtext(0.589, 0.85, s='             ', bbox={"facecolor": "turquoise", "pad": -10})
+    plt.figtext(0.90, 0.795, f"{n} Least popular songs all times" , ha="right", fontsize=8)
+    plt.figtext(0.589, 0.80, s='             ', bbox={"facecolor": "red", "pad": -10})
     plt.savefig("imgs/Popularity_all_time.png")
     plt.close()
 
+def song_duration_all_times(dic,n):
+    df = make_df(dic).sort_values("duration", ascending=False)
 
+    #Set the "Music" level of MultiIndex as index.
+    df.index = df.index.get_level_values("Music")
+
+    #get head and tail of the DF and concat as a new DF
+    df_head=df.head(n)
+    df_tail=df.tail(n)
+    df=pd.concat((df_head,df_tail))
+    pal=[]
+    for i in range(n):
+        pal.append('turquoise')
+    for i in range(n):
+        pal.append('red')
+
+    plt.figure(figsize=(16,9))
+    plot=sns.barplot(data=df, x=df.index, y="duration", palette=pal)
+    plot.set_xlabel(xlabel="Songs", fontsize=18)
+    plot.set_ylabel(ylabel="Duration", fontsize=18)
+    plt.tick_params(labelsize=14)
+    plt.figtext(0.895, 0.85, f"{n} Longest songs all times" , ha="right", fontsize=16)
+    plt.figtext(0.695, 0.85, s='             ', bbox={"facecolor": "turquoise", "pad": 6})
+    plt.figtext(0.90, 0.795, f"{n} Shortest songs all times" , ha="right", fontsize=16)
+    plt.figtext(0.695, 0.80, s='             ', bbox={"facecolor": "red", "pad": 6})
+    plt.title("""The better and the worst perfoming music 
+of The Neighbourhood""",fontweight=1000,fontsize=14, ma='center')
+    plt.savefig("imgs/Duration_all_time.png")
+    plt.close()
+
+song_popularity_all_times(dic,2)
+song_duration_all_times(dic,3)
