@@ -51,7 +51,7 @@ def get_songs_data(song_name, song_href):
 def get_nbhd_songs():
     """Function that takes The Neighbourhood songs data
 
-    :return: The Neighbourhood songs data
+    :return: The Neighbourhood songs data, the key is the song name.
     :rtype: dict
     """
     initial_page = make_request("https://www.letras.mus.br/the-neighbourhood/")
