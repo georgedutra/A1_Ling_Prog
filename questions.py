@@ -1,9 +1,12 @@
-from os import makedirs
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import pandas as pd
 from create_df import make_df,make_MultiIndex
+
 
 dic={"album1":{"Music":["music11", "music12","music13"], "duration":[0.55,0.65,0.84], 
                 "views":[1250,1200,1300], "popularity":[100,50,60]},
@@ -31,7 +34,7 @@ def song_popularity_album(dic):
     listened and least listened per album?".
 
     :param dic: Dictionary
-    :type dic: dict
+    :type dic: pandas.core.frame.DataFrame
     """    
     df=make_df(dic)
     
@@ -71,33 +74,31 @@ bbox={"facecolor": "white", "pad": -10})
         plt.savefig(f"imgs/{album}_popularity.png")
         plt.close()
 
-def song_duration_album(dic):
+def song_duration_album(df):
     """Create a bar chart of each album to answer the question "which songs are longest 
     and which are shortest per album?".
 
-    :param dic: Dictionary
+    :param dic: A pandas DataFrame
     :type dic: dict
-    """    
-    df=make_df(dic)
-    
+    """       
     #A numpy array with the values of the first level of MultiIndex.
-    albums=np.unique(make_MultiIndex(dic).get_level_values("Album"))
+    albums=np.unique(df.index.get_level_values('Album'))
 
     for album in albums:
         #Select the row of the DataFrame related to one specific album.
-        df_sliced=df.xs(album).sort_values("duration", ascending=False)
+        df_sliced=df.xs(album).sort_values("tracks_duration_ms", ascending=False)
         
         #The index of the longest song (wich is the name of the song and the 
         #second level of MultiIndex).
-        longest=df_sliced["duration"].astype(float).idxmax()
+        longest=df_sliced["tracks_duration_ms"].astype(float).idxmax()
         
         #The index of the shortest song (wich is the name of the song and the 
         #second level of MultiIndex).
-        shortest=df_sliced["duration"].astype(float).idxmin()
+        shortest=df_sliced["tracks_duration_ms"].astype(float).idxmin()
 
         #Seaborn to make the visualization.
-        plot=sns.barplot(data=df_sliced, x=df_sliced.index, y="duration",
-palette=set_highlight_palette(df_sliced["duration"]))
+        plot=sns.barplot(data=df_sliced, x=df_sliced.index, y="tracks_duration_ms",
+palette=set_highlight_palette(df_sliced["tracks_duration_ms"]))
 
         #Y-axis label
         plot.set(ylabel="Duration")
@@ -169,5 +170,7 @@ of The Neighbourhood""",fontweight=1000,fontsize=14, ma='center')
     plt.savefig("imgs/Duration_all_time.png")
     plt.close()
 
-song_popularity_all_times(dic,2)
-song_duration_all_times(dic,3)
+#song_duration_album(pd.read_csv('final_df.csv',index_col=[0,1]))
+
+
+
