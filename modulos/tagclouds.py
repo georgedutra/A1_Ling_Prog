@@ -4,9 +4,6 @@ from PIL import Image
 import wordcloud as wc
 import multidict
 import re
-from scipy.ndimage import gaussian_gradient_magnitude
-import matplotlib.pyplot as plt
-import random
 
 def lyrics_all(df: pd.DataFrame) -> str:
     """Receives a DataFrame with musics and returns a string with every lyric concatenated
@@ -16,9 +13,22 @@ def lyrics_all(df: pd.DataFrame) -> str:
     :return: string with every artist's music lyrics concatenated
     :rtype: str
     """
-    lyrics_list = list(df["Lyric"])
-    concatenated_string = " ".join(lyrics_list)
-    return concatenated_string
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError("The function only accepts DataFrames as parameters.")
+    
+    try:
+        lyrics_list = list(df["Lyric"])
+        concatenated_string = " ".join(lyrics_list)
+    
+    except KeyError:
+        print("DataFrame has no column 'Lyric'.")
+        return ""
+    except TypeError:
+        print("Some of the lyrics are not strings, and must be changed.")
+        return ""
+    
+    else:
+        return concatenated_string
 
 def lyrics_albuns(df: pd.DataFrame) -> dict:
     """Receives a dataframe with musics and return a dictionary with all albums names and all music's lyrics in each album concatenated as a string.
@@ -28,12 +38,24 @@ def lyrics_albuns(df: pd.DataFrame) -> dict:
     :return: Dictionary with albums names as keys, and all music's lyrics in each album concatenated as a string, as the key's values.
     :rtype: dict
     """
-
-    dict_lyrics = {} # Dictionary to be returned in the end
-    albums = np.unique(df.index.get_level_values("Album")) # Creates an array with every album's names
-    for album_name in albums:
-        dict_lyrics[album_name] = lyrics_all(df.xs(album_name))
-    return dict_lyrics
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError("The function only accepts DataFrames as parameters.")
+    
+    try:
+        dict_lyrics = {} # Dictionary to be returned in the end
+        albums = np.unique(df.index.get_level_values("Album")) # Creates an array with every album's names
+        for album_name in albums:
+            dict_lyrics[album_name] = lyrics_all(df.xs(album_name))
+    
+    except KeyError:
+        print("DataFrame has no index 'Album'.")
+        return {}
+    except TypeError:
+        print("Some of the album's titles are not strings.")
+        return {}
+        
+    else:
+        return dict_lyrics
 
 def music_names(df: pd.DataFrame) -> str:
     """Receives a dataframe with musics and returns a concatenated string with every song's names
@@ -43,9 +65,19 @@ def music_names(df: pd.DataFrame) -> str:
     :return: string with all musics names concatenated
     :rtype: str
     """
-    music_list = list(df.index.get_level_values("Music"))
-    concat_names = " ".join(music_list)
-    return concat_names
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError("The function only accepts DataFrames as parameters.")
+    try:
+        music_list = list(df.index.get_level_values("Music"))
+        concat_names = " ".join(music_list)
+    except KeyError:
+        print("DataFrame has no index 'Music'.")
+        return ""
+    except TypeError:
+        print("Some of the music names are not strings.")
+        return ""
+    else:    
+        return concat_names
 
 def frequency(text: str) -> multidict.MultiDict:
     """Receives a string, and returns a multidict with each word's frequency to create a WordCloud 
@@ -55,6 +87,9 @@ def frequency(text: str) -> multidict.MultiDict:
     :return: A Multidict with words as keys and the word's frequencies as values
     :rtype: multidict.MultiDict
     """
+    if not isinstance(text, str):
+        raise TypeError("The function only accepts strings as parameter")
+
     # This creates both a MultiDict and a dictionary, because for some reason the WordCloud library asks for it
     frequency_multidict = multidict.MultiDict()
     freq_dict = {}
@@ -80,6 +115,9 @@ def frequency_generator(frequencies: multidict.MultiDict, file_name: str):
     :param file_name: string that defines the name of the image file to be saved
     :type file_name: str
     """
+    if len(frequencies) < 10:
+        print(f"The amount of words is insufficient to create the archive {file_name}.png")
+        return
     cloud = wc.WordCloud(max_words=10000, max_font_size=40, relative_scaling=0).generate_from_frequencies(frequencies)
     cloud.to_file(f"images/{file_name}.png") 
 
