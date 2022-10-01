@@ -8,11 +8,11 @@ from scipy.ndimage import gaussian_gradient_magnitude
 import matplotlib.pyplot as plt
 import random
 
-def lyrics_all(df):
+def lyrics_all(df: pd.DataFrame) -> str:
     """Receives a DataFrame with musics and returns a string with every lyric concatenated
 
     :param df: musics DataFrame with one column 'Lyric' that has each music's lyrics as strings
-    :type df: pandas.DataFrame
+    :type df: pd.DataFrame
     :return: string with every artist's music lyrics concatenated
     :rtype: str
     """
@@ -20,11 +20,11 @@ def lyrics_all(df):
     concatenated_string = " ".join(lyrics_list)
     return concatenated_string
 
-def lyrics_albuns(df):
+def lyrics_albuns(df: pd.DataFrame) -> dict:
     """Receives a dataframe with musics and return a dictionary with all albums names and all music's lyrics in each album concatenated as a string.
 
     :param df: Dataframe with an 'Album' Multi-Index (the name of the album each music belongs to), and a 'Lyric' column with each song's lyrics as strings
-    :type df: pandas.DataFrame
+    :type df: pd.DataFrame
     :return: Dictionary with albums names as keys, and all music's lyrics in each album concatenated as a string, as the key's values.
     :rtype: dict
     """
@@ -32,14 +32,14 @@ def lyrics_albuns(df):
     dict_lyrics = {} # Dictionary to be returned in the end
     albums = np.unique(df.index.get_level_values("Album")) # Creates an array with every album's names
     for album_name in albums:
-        dict_lyrics[album_name] = lyrics_concat(df.xs(album_name))
+        dict_lyrics[album_name] = lyrics_all(df.xs(album_name))
     return dict_lyrics
 
-def music_names(df):
+def music_names(df: pd.DataFrame) -> str:
     """Receives a dataframe with musics and returns a concatenated string with every song's names
 
     :param df: Dataframe with a Multi-Index called 'Music' (music's name)
-    :type df: pandas.DataFrame
+    :type df: pd.DataFrame
     :return: string with all musics names concatenated
     :rtype: str
     """
@@ -47,7 +47,7 @@ def music_names(df):
     concat_names = " ".join(music_list)
     return concat_names
 
-def frequency(text):
+def frequency(text: str) -> multidict.MultiDict:
     """Receives a string, and returns a multidict with each word's frequency to create a WordCloud 
 
     :param text: A string with the text wished to create the WordCloud
@@ -72,51 +72,46 @@ def frequency(text):
         frequency_multidict.add(key, freq_dict[key])
     return frequency_multidict
 
-def cloud_parameters(image, low_quality=False, no_white=False):
-    """Receives an image's path, and return important masking parameters for the WordCloud
+def frequency_generator(frequencies: multidict.MultiDict, file_name: str):
+    """Receives a frequency MultiDict, and creates a tagcloud named '{file_name}.png'
 
-    :param image: Path to the image that will be used to create the TagCloud
-    :type image: str
-    :param low_quality: Reduces the quality of the final image in case the script becomes too slow, defaults to False
-    :type low_quality: bool, optional
-    :param no_white: Excludes white parts from the mask, defaults to False
-    :type no_white: bool, optional
-    :return: Parameters colors, mask and edge map
-    :rtype: tuple
+    :param frequencies: MultiDict with words as keys and frequencies as values
+    :type frequencies: multidict.MultiDict
+    :param file_name: string that defines the name of the image file to be saved
+    :type file_name: str
     """
-    # First, we pick the image as an array 
-    colors = np.array(Image.open(image))
-    if low_quality == True:
-        colors = colors[::3, ::3] 
+    cloud = wc.WordCloud(max_words=10000, max_font_size=40, relative_scaling=0).generate_from_frequencies(frequencies)
+    cloud.to_file(f"images/{file_name}.png") 
 
-    # Then, we take a copy of the image to use as mask
-    mask = colors.copy()
-    if no_white == True:
-        mask[mask.sum() == 0] = 255 
+def generate_cloud_lyrics(df: pd.DataFrame):
+    """Receives a DataFrame with musics and generates a TagCloud image named 'all_lyrics_tagcloud.png' according to the most frequent words in all lyrics
 
-    return colors, mask
-
-def cloud_all_lyrics(df):
-    """Receives a DataFrame with music lyrics, and create a TagCloud with all lyrics words according to frequency.
-
-    :param df: pandas DataFrame with at least one column called 'Lyric', with each music's lyrics in it
-    :type df: pandas.DataFrame
+    :param df: A DataFrame with a 'Lyric' column, with all music's lyrics as strings
+    :type df: pd.DataFrame
     """
-    # Lets pick the standard parameters for the wordcloud
-    colors, mask = cloud_parameters("images/band_logo.png")
+    frq_dict = frequency(lyrics_all(df))
+    frequency_generator(frq_dict, "all_lyrics_tagcloud")
 
-    # Thus, let's pick the frequency dictionary to plot the TagCloud
-    text = frequency(lyrics_all(df))
+def generate_cloud_albuns(df: pd.DataFrame):
+    """Receives a DataFrame with musics and generates a TagCloud image named '{album_name}_tagcloud.png' according to the most frequent words in each album's lyrics
 
-    # Then, we plot and generate the TagCloud using the parameters
-    cloud = wc.WordCloud(background_color="black" , max_words=20000, mask=mask, max_font_size=40, relative_scaling=0, contour_width=1,contour_color="white")
-    cloud.generate_from_frequencies(text)
-    
-    # Finally, we recolor the words and save it
-    cloud_colors = wc.ImageColorGenerator(colors)
-    cloud.recolor(color_func=cloud_colors)
-    cloud.to_file("images/all_lyrics_tagcloud.png")
+    :param df: A DataFrame with an index called 'Album' and a 'Lyric' column, with all music's lyrics as strings
+    :type df: pd.DataFrame
+    """
+    # Picks a dictionary with each album's lyrics, and generate a tagcloud for each album
+    albuns = lyrics_albuns(df)
+    for key in albuns:
+        frq_dict = frequency(albuns[key])
+        frequency_generator(frq_dict, f"{key}_tagcloud") 
 
+def generate_cloud_music_names(df: pd.DataFrame):
+    """Receives a DataFrame with musics and generates a TagCloud image named 'names_tagcloud.png' according to the most frequent words in all music's titles
+
+    :param df: A DataFrame with an index called 'Name', with all music's names as strings
+    :type df: pd.DataFrame
+    """
+    frq_dict = frequency(music_names(df))
+    frequency_generator(frq_dict, "names_tagcloud")
 
 ####################################################################################################################
 # creating a fiction dataframe while I dont have the oficial one
@@ -132,5 +127,4 @@ dados = [[1982, 2600000, "in hac habitasse. Nec ullamcorper sit amet risus. Cons
 
 df = pd.DataFrame(dados, index=indexes, columns=columns)
 
-# cloud_all_lyrics(df)
-
+generate_cloud_music_names(df)
