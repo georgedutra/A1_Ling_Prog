@@ -30,64 +30,71 @@ def set_highlight_palette(series, max_color = 'turquoise', min_color = "red", ot
             pal.append(other_color)
     return pal
 
-def song_popularity_album(dic):
-    """Create a bar chart of each album to answer the question "which songs are most 
-    listened and least listened per album?".
+def read_csv():
+    df=pd.read_csv('final_df.csv',index_col=[0,1])
+    return df
+#def plt_general(plot,album):
 
-    :param dic: Dictionary
-    :type dic: pandas.core.frame.DataFrame
-    """    
-    df=make_df(dic)
-    
-    #A numpy array with the values of the first level of MultiIndex.
-    albums=np.unique(make_MultiIndex(dic).get_level_values("Album"))
+def song_popularity_album():
+    """Create a bar chart of each album to answer the question 'which songs are most 
+    and least popular per album?'"""
 
-    for album in albums:
-        #Select the row of the DataFrame related to one specific album.
-        df_sliced=df.xs(album).sort_values("popularity", ascending=False)
-        
-        #The index of the most popular song (wich is the name of the song and the 
-        #second level of MultiIndex).
-        most_popular=df_sliced["popularity"].astype(float).idxmax()
-        
-        #The index of the least popular song (wich is the name of the song and the 
-        #second level of MultiIndex).
-        least_popular=df_sliced["popularity"].astype(float).idxmin()
+    #Call the function that will read a csv file and create a dataframe.
+    df=read_csv()
 
-        
-
-        #Seaborn to make the visualization.
-        plot=sns.barplot(data=df_sliced, x=df_sliced.index, y="popularity",
-        palette=set_highlight_palette(df_sliced["popularity"]))
-
-        #Y-axis label
-        plot.set(ylabel="Popularity")
-
-        #Title.
-        plt.title(label=f"{album}", loc="center", pad=10)
-
-        #Footnote.
-        plt.figtext(0.1, 0.01, f"""The most popular song of {album} is 
-{most_popular} and the least is {least_popular}.""", ha="left", fontsize=8, 
-bbox={"facecolor": "white", "pad": -10})
-
-        #Save and close the plot.
-        plt.savefig(f"imgs/{album}_popularity.png")
-        plt.close()
-
-def song_duration_album(df):
-    """Create a bar chart of each album to answer the question "which songs are longest 
-    and which are shortest per album?".
-
-    :param dic: A pandas DataFrame
-    :type dic: pandas.core.frame.DataFrame
-    """       
     #A numpy array with the values of the first level of MultiIndex.
     albums=np.unique(df.index.get_level_values('Album'))
 
     for album in albums:
         #Select the row of the DataFrame related to one specific album.
-        df_sliced=df.xs(album).sort_values("tracks_duration_ms", ascending=False)
+        df_sliced=df.xs(album).sort_values("tracks_popularity", ascending=False)
+        
+        #The index of the most popular song (wich is the name of the song and the 
+        #second level of MultiIndex).
+        most_popular=df_sliced["tracks_popularity"].astype(float).idxmax()
+        
+        #The index of the least popular song (wich is the name of the song and the 
+        #second level of MultiIndex).
+        least_popular=df_sliced["tracks_popularity"].astype(float).idxmin()
+
+        #The size of the charts.
+        plt.figure(figsize=(32,18))
+
+        #Seaborn to make the visualization.
+        plot=sns.barplot(data=df_sliced, x="tracks_popularity", y=df_sliced.index,
+        palette=set_highlight_palette(df_sliced["tracks_popularity"]))
+
+        #These lines are responsible for setting the labels.
+        plot.set_xlabel(xlabel="Popularity", fontsize=30,labelpad=5)
+        plot.set_xticklabels(plot.get_xticklabels(), fontsize=24)
+        plot.set_ylabel(ylabel="Songs", fontsize=30,labelpad=5)
+        plot.set_yticklabels(plot.get_yticklabels(),fontsize=24)
+
+        #Title.
+        plt.title(label=f"{album}", loc="center", size=50, pad=10)
+
+        #Footnote.
+        plt.figtext(0, 0, f"""The most popular song of {album} is 
+{most_popular} and the least is {least_popular}.""", ha="left", fontsize=30, 
+bbox={"facecolor": "white", "pad": 10})
+
+        #Save and close the plot.
+        plt.savefig(f"imgs/popularity/{album}_popularity.png", bbox_inches='tight')
+        plt.close()
+
+def song_duration_album():
+    """ Create a bar chart of each album to answer the question 'which songs are 
+    longest and which are shortest per album?' """
+
+    #Call the function that will read a csv file and create a dataframe.
+    df=read_csv()      
+
+    #A numpy array with the values of the first level of MultiIndex.
+    albums=np.unique(df.index.get_level_values('Album'))
+
+    for album in albums:
+        #Select the row of the DataFrame related to one specific album.
+        df_sliced=df.xs(album).sort_values("tracks_duration", ascending=False)
         
         #The index of the longest song (wich is the name of the song and the 
         #second level of MultiIndex).
@@ -99,21 +106,22 @@ def song_duration_album(df):
 
         #The size of the charts.
         plt.figure(figsize=(32,18))
+
         #Seaborn to make the visualization.
-        plot=sns.barplot(data=df_sliced, x="tracks_duration_ms", y=df_sliced.index,
-palette=set_highlight_palette(df_sliced["tracks_duration_ms"]))
+        plot=sns.barplot(data=df_sliced, x="tracks_duration", y=df_sliced.index,
+        palette=set_highlight_palette(df_sliced["tracks_duration"]))
 
         #These lines are responsible for setting the labels.
-        plot.set_xlabel(xlabel="Duration", fontsize=30,labelpad=5)
+        plot.set_xlabel(xlabel="Duration (min)", fontsize=30,labelpad=5)
         plot.set_xticklabels(plot.get_xticklabels(), fontsize=24)
         plot.set_ylabel(ylabel="Songs", fontsize=30,labelpad=5)
         plot.set_yticklabels(plot.get_yticklabels(),fontsize=24)
-
+        
         #Title.
-        plt.title(label=f"{album}", loc="center", size=50, pad=10)
+        plt.title(label=f"{album}", loc="center", size=50, pad=10, weight='bold')
 
         #Footnote.
-        plt.figtext(0, 0.01, f"""The longest song of {album} is 
+        plt.figtext(0, 0, f"""The longest song of {album} is 
 {longest} and the shortest is {shortest}.""", ha="left", fontsize=30, 
 bbox={"facecolor": "white", "pad": 10})
 
@@ -176,8 +184,10 @@ of The Neighbourhood""",fontweight=1000,fontsize=14, ma='center')
     plt.savefig("imgs/Duration_all_time.png")
     plt.close()
 
-# df=pd.read_csv('final_df.csv',index_col=[0,1])
-# song_duration_album(df)
+
+
+# song_popularity_album()
+# song_duration_album()
 
 
 
