@@ -24,9 +24,9 @@ def ms_to_min_sec(ms):
     #If seconds are less than 10 the return would be something like 4:6 is better if 
     #it's 4:06.  
     if seconds in decimal:
-        return f"{minutes}:0{seconds}"
+        return f"{minutes}.0{seconds}"
     else:
-        return f"{minutes}:{seconds}"
+        return f"{minutes}.{seconds}"
 
 
 def make_MultiIndex(dic):
@@ -81,8 +81,7 @@ def make_df(dic):
     df_spotify=df_spotify.drop(labels=['Female Robbery', 'Fallen Star','Middle of Somewhere',
     'Spotify Sessions','Sweater Weather (Young Saab Remix)','Yellow Box',"Daddy Issues (Remix) feat. Syd",
     "Thank You,"], level='Album')
-    df_spotify['tracks_duration_ms']=df_spotify['tracks_duration_ms'].apply(ms_to_min_sec)
-    df_spotify.rename(columns={'tracks_duration_ms':'tracks_duration'}, inplace=True)
+    df_spotify['tracks_duration']=df_spotify['tracks_duration_ms'].apply(ms_to_min_sec)
 
     #Save
     df_spotify.to_csv("final_df.csv")
