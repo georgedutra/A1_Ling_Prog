@@ -77,14 +77,14 @@ def music_names(df: pd.DataFrame) -> str:
     except TypeError:
         print("Some of the music names are not strings.")
         return ""
-        
+
     else:    
         return concat_names
 
 def frequency(text: str) -> multidict.MultiDict:
-    """Receives a string, and returns a multidict with each word's frequency to create a WordCloud 
+    """Receives a string, and returns a multidict with each word's number of ocurrencies in the string 
 
-    :param text: A string with the text wished to create the WordCloud
+    :param text: A string with the text wished to count each word's frequency
     :type text: str
     :return: A Multidict with words as keys and the word's frequencies as values
     :rtype: multidict.MultiDict
