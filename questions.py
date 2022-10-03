@@ -1,5 +1,6 @@
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
+warnings.simplefilter(action='ignore', category=UserWarning)
 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -79,7 +80,7 @@ def song_duration_album(df):
     and which are shortest per album?".
 
     :param dic: A pandas DataFrame
-    :type dic: dict
+    :type dic: pandas.core.frame.DataFrame
     """       
     #A numpy array with the values of the first level of MultiIndex.
     albums=np.unique(df.index.get_level_values('Album'))
@@ -96,23 +97,28 @@ def song_duration_album(df):
         #second level of MultiIndex).
         shortest=df_sliced["tracks_duration_ms"].astype(float).idxmin()
 
+        #The size of the charts.
+        plt.figure(figsize=(32,18))
         #Seaborn to make the visualization.
-        plot=sns.barplot(data=df_sliced, x=df_sliced.index, y="tracks_duration_ms",
+        plot=sns.barplot(data=df_sliced, x="tracks_duration_ms", y=df_sliced.index,
 palette=set_highlight_palette(df_sliced["tracks_duration_ms"]))
 
-        #Y-axis label
-        plot.set(ylabel="Duration")
+        #These lines are responsible for setting the labels.
+        plot.set_xlabel(xlabel="Duration", fontsize=30,labelpad=5)
+        plot.set_xticklabels(plot.get_xticklabels(), fontsize=24)
+        plot.set_ylabel(ylabel="Songs", fontsize=30,labelpad=5)
+        plot.set_yticklabels(plot.get_yticklabels(),fontsize=24)
 
         #Title.
-        plt.title(label=f"{album}", loc="center", pad=10)
+        plt.title(label=f"{album}", loc="center", size=50, pad=10)
 
         #Footnote.
-        plt.figtext(0.1, 0.01, f"""The longest song of {album} is 
-{longest} and the shortest is {shortest}.""", ha="left", fontsize=8, 
-bbox={"facecolor": "white", "pad": -10})
+        plt.figtext(0, 0.01, f"""The longest song of {album} is 
+{longest} and the shortest is {shortest}.""", ha="left", fontsize=30, 
+bbox={"facecolor": "white", "pad": 10})
 
         #Save and close the plot.
-        plt.savefig(f"imgs/{album}_duration.png")
+        plt.savefig(f"imgs/duration/{album}_duration.png",bbox_inches='tight')
         plt.close()
 
 def song_popularity_all_times(dic,n):
@@ -170,7 +176,8 @@ of The Neighbourhood""",fontweight=1000,fontsize=14, ma='center')
     plt.savefig("imgs/Duration_all_time.png")
     plt.close()
 
-#song_duration_album(pd.read_csv('final_df.csv',index_col=[0,1]))
+# df=pd.read_csv('final_df.csv',index_col=[0,1])
+# song_duration_album(df)
 
 
 
