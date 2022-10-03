@@ -70,12 +70,14 @@ def music_names(df: pd.DataFrame) -> str:
     try:
         music_list = list(df.index.get_level_values("Music"))
         concat_names = " ".join(music_list)
+
     except KeyError:
         print("DataFrame has no index 'Music'.")
         return ""
     except TypeError:
         print("Some of the music names are not strings.")
         return ""
+        
     else:    
         return concat_names
 

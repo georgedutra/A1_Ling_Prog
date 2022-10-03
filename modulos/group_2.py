@@ -27,6 +27,15 @@ def dict_to_series(dict: dict | multidict.MultiDict, name: str = None) -> pd.Ser
     series = pd.Series(values, indexes, name = name)
     return series.sort_values(ascending=False)
 
+def question_1(df: pd.DataFrame):
+    albums = np.unique(df.index.get_level_values("Album"))
+    albums_string = " ".join(albums)
+    albums_series = dict_to_series(frequency(albums_string))
+    print("\nThe most common words in the band's album's titles are:\n", albums_series[0:4].index.values, "\n\n", sep="")
+
+def question_2(df: pd.DataFrame):
+    titles_series = dict_to_series(frequency(music_names(df)))
+    print("\nThe most common words in the band's music's titles are:\n", titles_series[0:4].index.values, "\n\n", sep="")
 ##################################################################################################
 # Outro dataframe de teste enquanto não tenho o final para testar
 
@@ -41,4 +50,4 @@ dados = [[1982, 2600000, "in hac habitasse. Nec ullamcorper sit amet risus. Cons
 
 df = pd.DataFrame(dados, index=indexes, columns=columns)
 
-print(dict_to_series(frequency(lyrics_all(df))))
+question_2(df)
