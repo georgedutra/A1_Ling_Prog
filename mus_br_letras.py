@@ -30,22 +30,20 @@ def get_song_links(soup_page):
     return song_name, song_href
 
 def get_songs_data(song_name, song_href):
-    """Gets the lyrics and exibihition number of all artist musics.
+    """Gets the lyrics artist musics.
 
     :param song_name: List with all the artist song name
     :type song_name: list
     :param song_href: List with all the artist song links
     :type song_href: list
-    :return: Dictionary with songs lyrics and exibihition
+    :return: Dictionary with songs lyrics
     :rtype: dict
     """
     songs_data = dict()
     for song_number in range(len(song_name)):
         page = make_request("https://www.letras.mus.br/"+song_href[song_number])
-        song_lyrics = page.find(class_="cnt-letra p402_premium").text
-        song_exibitions = page.find(class_="cnt-info_exib")
-        song_exib_number = song_exibitions.find("b").text
-        songs_data[song_name[song_number]] = [song_lyrics, song_exib_number]
+        song_lyrics = page.find(class_="cnt-letra p402_premium").get_text(" ")
+        songs_data[song_name[song_number]] = song_lyrics
     return songs_data
 
 def get_nbhd_songs():
