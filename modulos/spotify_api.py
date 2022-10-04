@@ -3,14 +3,14 @@ import datetime
 from urllib.parse import urlencode
 import base64
 
-TNBH = "77SW9BnxLY8rJ0RciFqkHh"
+TNBH = "77SW9BnxLY8rJ0RciFqkHh" #The Neighbourhood spotify ID
 
 class SpotifyAPI(object):
     """Class that defines the spotify object. Agregates all methods to make the requests to spotify API.
 
     :param object: The base class of the class hierarchy.
     :type object: object
-    :raises Exception: Exception raised when there are no client id and secret.
+    :raises Exception: Exception raised when there's no response from the client.
     :return: Spotify object that have all the methods bellow.
     :rtype: object
     """
@@ -30,14 +30,11 @@ class SpotifyAPI(object):
     def get_client_credentials(self):
         """Method that returns the credential enconded in Base64.
 
-        :raises Exception: Raised when there is no client id and server.
         :return: returns the credential enconded in Base64
         :rtype: base64
         """
         client_id = self.client_id
         client_secret = self.client_secret
-        if client_secret == None or client_id == None:
-            raise Exception("You must set client_id and client_secret")
         client_creds = f"{client_id}:{client_secret}"
         client_creds_b64 = base64.b64encode(client_creds.encode())
         return client_creds_b64.decode()
@@ -48,11 +45,11 @@ class SpotifyAPI(object):
         :return: The token header.
         :rtype: dict
         """
-
         client_creds_b64 = self.get_client_credentials()
         return {
-            "Authorization": f"Basic {client_creds_b64}"
-        }
+                "Authorization": f"Basic {client_creds_b64}"
+            }
+
 
     def perform_auth(self):
         """Method the performs the authentication of the device on Spotify API.
@@ -61,25 +58,26 @@ class SpotifyAPI(object):
         :return: Informas if the authentication was successfull. 
         :rtype: boolean
         """
-
-        token_url = self.token_url
-        token_data = {
-            "grant_type": "client_credentials"
-        } 
-        token_headers = self.get_token_headers()
-        r = requests.post(token_url, data=token_data, headers=token_headers)
-        if r.status_code not in range(200, 299):
-            raise Exception("Could not authenticate client.")
-            # return False
-        data = r.json()
-        now = datetime.datetime.now()
-        access_token = data['access_token']
-        expires_in = data['expires_in'] # seconds
-        expires = now + datetime.timedelta(seconds=expires_in)
-        self.access_token = access_token
-        self.access_token_expires = expires
-        self.access_token_did_expire = expires < now
-        return True
+        try:
+            token_url = self.token_url
+            token_data = {
+                "grant_type": "client_credentials"
+            } 
+            token_headers = self.get_token_headers()
+            r = requests.post(token_url, data=token_data, headers=token_headers)
+            if r.status_code not in range(200, 299):
+                raise Exception("Could not authenticate client.")
+            data = r.json()
+            now = datetime.datetime.now()
+            access_token = data['access_token']
+            expires_in = data['expires_in'] # seconds
+            expires = now + datetime.timedelta(seconds=expires_in)
+            self.access_token = access_token
+            self.access_token_expires = expires
+            self.access_token_did_expire = expires < now
+            return True
+        except Exception as error:
+            return (False, f"There where some authentication error: {error}")
 
     def get_access_token(self):
         """Function that generates the acess token. 
@@ -90,13 +88,16 @@ class SpotifyAPI(object):
         token = self.access_token
         expires = self.access_token_expires
         now = datetime.datetime.now()
-        if expires < now:
-            self.perform_auth()
-            return self.get_access_token()
-        elif token == None:
-            self.perform_auth()
-            return self.get_access_token() 
-        return token
+        try:
+            if expires < now:
+                self.perform_auth()
+                return self.get_access_token()
+            elif token == None:
+                self.perform_auth()
+                return self.get_access_token() 
+            return token
+        except Exception as error:
+            return "ola"
 
     def get_resource_header(self):
         """Generates the header used in the endpoint when calling the API.
@@ -127,8 +128,10 @@ class SpotifyAPI(object):
         endpoint = f"https://api.spotify.com/{version}/{resource_type}/{lookup_id}/{extra}"
         headers = self.get_resource_header()
         r = requests.get(endpoint, headers=headers)
-        if r.status_code not in range(200, 299):
-            return {}
+        if r.status_code == 429:
+            raise RuntimeError("Too many requests. Wait a little, and try again!")
+        elif r.status_code not in range(200, 299):
+            raise Exception("Resource not found. Make sure the ID and Resource Type exists")
         return r.json()
     
     def get_artist(self, _id):
@@ -227,10 +230,13 @@ def get_albums_data():
     albums = make_request_albums(spotify, TNBH)
     albums_id = []
     albums_name = []
-    for album in albums["items"]:
-        albums_id.append(album["id"])
-        albums_name.append(album["name"])
-    return (albums_name, albums_id)
+    try:
+        for album in albums["items"]:
+            albums_id.append(album["id"])
+            albums_name.append(album["name"])
+        return (albums_name, albums_id)
+    except KeyError:
+        return ("Key not found!")
 
 def get_albums_tracks():
     """Function that makes the request to get all the tracks ids of an album.
@@ -241,12 +247,15 @@ def get_albums_tracks():
     spotify = SpotifyAPI()
     albums_name, albums_id = get_albums_data()
     tracks_from_album = dict()
-    for i in range(len(albums_id)):
-        tracks_id = []
-        for track in make_request_tracks_from_album(spotify, albums_id[i])["items"]:
-            tracks_id.append(track["id"])
-        tracks_from_album[albums_name[i]] = tracks_id
-    return tracks_from_album
+    try:
+        for i in range(len(albums_id)):
+            tracks_id = []
+            for track in make_request_tracks_from_album(spotify, albums_id[i])["items"]:
+                tracks_id.append(track["id"])
+            tracks_from_album[albums_name[i]] = tracks_id
+        return tracks_from_album
+    except KeyError:
+        return ("Key not found!")
 
 def get_tracks_data():
     """Gets all the information we need about the tracks,
@@ -257,20 +266,27 @@ def get_tracks_data():
     spotify = SpotifyAPI()
     albums_tracks = get_albums_tracks()
     tracks_data = dict()
-    for album in albums_tracks:
-        tracks_names = []
-        tracks_popularity = []
-        tracks_duration_ms = []
-        tracks_explicit = []
-        tracks_number = []
-        tracks_available_mkt = []
-        for track_id in albums_tracks[album]:
-            track_data = make_request_track(spotify, track_id)
-            tracks_names.append(track_data["name"])
-            tracks_popularity.append(track_data["popularity"])
-            tracks_duration_ms.append(track_data["duration_ms"])
-            tracks_explicit.append(track_data["explicit"])
-            tracks_number.append(track_data["track_number"])
-            tracks_available_mkt.append(track_data["available_markets"])
-        tracks_data[album] = {"tracks_names": tracks_names, "tracks_popularity":tracks_popularity, "tracks_duration_ms":tracks_duration_ms, "tracks_explicit":tracks_explicit, "tracks_number":tracks_number, "tracks_available_mkt": tracks_available_mkt}
-    return tracks_data
+    try:
+        for album in albums_tracks:
+            tracks_names = []
+            tracks_popularity = []
+            tracks_duration_ms = []
+            tracks_explicit = []
+            tracks_number = []
+            tracks_available_mkt = []
+            for track_id in albums_tracks[album]:
+                track_data = make_request_track(spotify, track_id)
+                tracks_names.append(track_data["name"])
+                tracks_popularity.append(track_data["popularity"])
+                tracks_duration_ms.append(track_data["duration_ms"])
+                tracks_explicit.append(track_data["explicit"])
+                tracks_number.append(track_data["track_number"])
+                tracks_available_mkt.append(track_data["available_markets"])
+            tracks_data[album] = {"tracks_names": tracks_names, "tracks_popularity":tracks_popularity, "tracks_duration_ms":tracks_duration_ms, "tracks_explicit":tracks_explicit, "tracks_number":tracks_number, "tracks_available_mkt": tracks_available_mkt}
+        return tracks_data
+    except KeyError:
+        return ("Key not found!")
+    except RuntimeError as error:
+        return (error)
+    except Exception as error:
+        return error
