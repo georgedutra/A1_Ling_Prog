@@ -34,7 +34,7 @@ def question_1(df: pd.DataFrame):
     albums = np.unique(df.index.get_level_values("Album"))
     albums_string = " ".join(albums)
     albums_series = dict_to_series(frequency(albums_string))
-    print("\nThe most common words in the band's album's titles are:\n", albums_series[0:5].index.values, "\n", sep="")
+    print("\nThe most common words in the band's album's titles are:\n", albums_series[0:5].index.values, "\n\n", "="*60, sep="")
 
 def question_2(df: pd.DataFrame):
     """Receives a DataFrame with musics information and print at the console wich words are the most common among the band's music's titles 
@@ -43,19 +43,35 @@ def question_2(df: pd.DataFrame):
     :type df: pd.DataFrame
     """
     titles_series = dict_to_series(frequency(music_names(df)))
-    print("\nThe most common words in the band's music's titles are:\n", titles_series[0:5].index.values, "\n", sep="")
+    print("\nThe most common words in the band's music's titles are:\n", titles_series[0:5].index.values, "\n\n","="*60, sep="")
 
-def question_3(df: pd.DataFrame): 
+def question_3(df: pd.DataFrame):
+    """Receives a DataFrame with musics information and print at the console wich words are the most common among each album's music's lyrics 
+
+    :param df: DataFrame with one MultiIndex named 'Album' and one column named 'Lyric' with the band's music's lyrics as strings
+    :type df: pd.DataFrame
+    """
     lyrics = lyrics_albuns(df)
+
     for album in lyrics:
         words_freq = dict_to_series(frequency(lyrics[album]))
-        print(f"The most common words in the lyrics from the album {album} are:\n", words_freq[0:5].index.values,"\n", sep="")
+        print(f"\nThe most common words in the lyrics from the album {album} are:\n", words_freq[0:5].index.values,"\n\n","="*60, sep="")
 
 def question_4(df: pd.DataFrame):
+    """Receives a DataFrame with musics information and print at the console wich words are the most common among all music's lyrics 
+
+    :param df: DataFrame with one column named 'Lyric' with the band's music's lyrics as strings
+    :type df: pd.DataFrame
+    """
     lyrics_freq = dict_to_series(frequency(lyrics_all(df)))
-    print("\nThe most common words in the lyrics from the whole band's discography are:\n", lyrics_freq[0:5].index.values, "\n", sep="")
+    print("\nThe most common words in the lyrics from the whole band's discography are:\n", lyrics_freq[0:5].index.values, "\n\n","="*60, sep="")
 
 def question_5(df: pd.DataFrame):
+    """Receives a DataFrame with musics information and verify if at least half the albums have it's titles in some of it's music's lyrics  
+
+    :param df: DataFrame with one MultiIndex named 'Album' and one column named 'Lyric' with the band's music's lyrics as strings
+    :type df: pd.DataFrame
+    """
     lyrics = lyrics_albuns(df)
     ocurrencies = 0
     
@@ -64,11 +80,16 @@ def question_5(df: pd.DataFrame):
             ocurrencies += 1
     
     if ocurrencies >= (len(lyrics)/2):
-        print("\nThis band's musics usually have the album's titles into it's lyrics!")
+        print("\nThis band's musics usually have the album's titles into it's lyrics!\n\n", "="*60,sep="")
     else:
-        print("\nThis band's musics usually don't have the album's titles into it's lyrics.")
+        print("\nThis band's musics usually don't have the album's titles into it's lyrics.\n\n", "="*60,sep="")
 
 def question_6(df: pd.DataFrame):
+    """Receives a DataFrame with musics information and verify if at least half the musics have it's titles in it's own lyrics  
+
+    :param df: DataFrame with one MultiIndex named 'Music' and one column named 'Lyric' with the band's music's lyrics as strings
+    :type df: pd.DataFrame
+    """
     music_list = list(df.index.get_level_values("Music"))
     ocurrencies = 0
 
@@ -77,10 +98,10 @@ def question_6(df: pd.DataFrame):
         if music in music_df.iloc[0]["Lyric"]:
             ocurrencies += 1
 
-    if ocurrencies >= (len(music_list)):
-        print("\nThis band's musics usually have the music's title into it's lyrics!")
+    if ocurrencies >= (len(music_list)/2):
+        print("\nThis band's musics usually have the music's title into it's lyrics!\n\n", "="*60,sep="")
     else:
-        print("\nThis band's musics usually don't have the music's titles into it's lyrics.")
+        print("\nThis band's musics usually don't have the music's titles into it's lyrics.\n\n", "="*60,sep="")
 
 
 ##################################################################################################
@@ -97,4 +118,9 @@ dados = [[1982, 2600000, "in Daddy Issues hac habitasse. Nec ullamcorper sit ame
 
 df = pd.DataFrame(dados, index=indexes, columns=columns)
 
+question_1(df)
+question_2(df)
+question_3(df)
+question_4(df)
 question_5(df)
+question_6(df)
