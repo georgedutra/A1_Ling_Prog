@@ -9,9 +9,18 @@ def make_request(link):
     :return: Parsed html of the page.
     :rtype: bs4.BeautifulSoup
     """
-    page = requests.get(link)
-    soup = BeautifulSoup(page.content, "html.parser")
-    return soup
+    try:
+        page = requests.get(link)
+        soup = BeautifulSoup(page.content, "html.parser")
+        return soup
+    except ConnectionError:
+        return ("Connection error! Make sure you have internet connection")
+    except requests.HTTPError:
+        return ("Unable to connect!")
+    except requests.Timeout:
+        return ("Server took to long to respond!")
+    except requests.ConnectionError:
+        return ("Invalid URL!")
 
 def get_song_links(soup_page):
     """Get all the links of musics in the main page of the artist in the site.
@@ -24,10 +33,13 @@ def get_song_links(soup_page):
     song_tags = soup_page.find_all(class_="song-name")
     song_href = []
     song_name = []
-    for song_tag in song_tags:
-        song_href.append(song_tag["href"])
-        song_name.append(song_tag.text)
-    return song_name, song_href
+    try:
+        for song_tag in song_tags:
+            song_href.append(song_tag["href"])
+            song_name.append(song_tag.text)
+        return song_name, song_href
+    except KeyError:
+        return("There's no href to be found!")
 
 def get_songs_data(song_name, song_href):
     """Gets the lyrics artist musics.
