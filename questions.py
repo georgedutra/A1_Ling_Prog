@@ -17,7 +17,8 @@ dic={"album1":{"Music":["music11", "music12","music13"], "duration":[0.55,0.65,0
 
 sns.set_theme(context="paper", style="darkgrid")
 
-def set_highlight_palette(series, max_color = 'turquoise', min_color = "red", other_color = 'lightgrey'):
+def set_highlight_palette(series, max_color = 'turquoise', min_color = "red", 
+other_color = 'lightgrey'):
     max_val = series.max()
     min_val= series.min()
     pal = []
@@ -37,7 +38,8 @@ def read_csv():
 
 def song_popularity_album():
     """Create a bar chart of each album to answer the question 'which songs are most 
-    and least popular per album?'"""
+    and least popular per album?
+    """    
 
     #Call the function that will read a csv file and create a dataframe.
     df=read_csv()
@@ -71,7 +73,7 @@ def song_popularity_album():
         plot.set_yticklabels(plot.get_yticklabels(),fontsize=24)
 
         #Title.
-        plt.title(label=f"{album}", loc="center", size=50, pad=10)
+        plt.title(label=f"{album}", loc="center", size=50, pad=10, weight='bold')
 
         #Footnote.
         plt.figtext(0, 0, f"""The most popular song of {album} is 
@@ -129,11 +131,12 @@ bbox={"facecolor": "white", "pad": 10})
         plt.savefig(f"imgs/duration/{album}_duration.png",bbox_inches='tight')
         plt.close()
 
-def song_popularity_all_times(dic,n):
-    df = make_df(dic).sort_values("popularity", ascending=False)
+def song_popularity_all_times(n):
+    df = read_csv()
 
     #Set the "Music" level of MultiIndex as index.
     df.index = df.index.get_level_values("Music")
+    df=df.sort_values('tracks_popularity', ascending=False)
 
     #get head and tail of the DF and concat as a new DF
     df_head=df.head(n)
@@ -145,7 +148,8 @@ def song_popularity_all_times(dic,n):
     for i in range(n):
         pal.append('red')
 
-    plot=sns.barplot(data=df, x=df.index, y="popularity", palette=pal)
+    plt.figure(figsize=(32,18))
+    plot=sns.barplot(data=df, y=df.index, x="tracks_popularity", palette=pal)
     plot.set(ylabel="Popularity", xlabel="Songs")
     plt.figtext(0.895, 0.85, f"{n} Most popular songs all times" , ha="right", fontsize=8)
     plt.figtext(0.589, 0.85, s='             ', bbox={"facecolor": "turquoise", "pad": -10})
@@ -154,11 +158,12 @@ def song_popularity_all_times(dic,n):
     plt.savefig("imgs/Popularity_all_time.png")
     plt.close()
 
-def song_duration_all_times(dic,n):
-    df = make_df(dic).sort_values("duration", ascending=False)
+def song_duration_all_times(n):
+    df = read_csv()
 
     #Set the "Music" level of MultiIndex as index.
     df.index = df.index.get_level_values("Music")
+    df=df.sort_values('tracks_duration', ascending=False)
 
     #get head and tail of the DF and concat as a new DF
     df_head=df.head(n)
@@ -170,15 +175,15 @@ def song_duration_all_times(dic,n):
     for i in range(n):
         pal.append('red')
 
-    plt.figure(figsize=(16,9))
-    plot=sns.barplot(data=df, x=df.index, y="duration", palette=pal)
+    plt.figure(figsize=(32,18))
+    plot=sns.barplot(data=df, y=df.index, x="tracks_duration", palette=pal)
     plot.set_xlabel(xlabel="Songs", fontsize=18)
     plot.set_ylabel(ylabel="Duration", fontsize=18)
     plt.tick_params(labelsize=14)
-    plt.figtext(0.895, 0.85, f"{n} Longest songs all times" , ha="right", fontsize=16)
-    plt.figtext(0.695, 0.85, s='             ', bbox={"facecolor": "turquoise", "pad": 6})
-    plt.figtext(0.90, 0.795, f"{n} Shortest songs all times" , ha="right", fontsize=16)
-    plt.figtext(0.695, 0.80, s='             ', bbox={"facecolor": "red", "pad": 6})
+    plt.figtext(0.895, 0.2, f"{n} Longest songs all times" , ha="right", fontsize=16)
+    plt.figtext(0.695, 0.2, s='             ', bbox={"facecolor": "turquoise", "pad": 6})
+    plt.figtext(0.90, 0.145, f"{n} Shortest songs all times" , ha="right", fontsize=16)
+    plt.figtext(0.695, 0.15, s='             ', bbox={"facecolor": "red", "pad": 6})
     plt.title("""The better and the worst perfoming music 
 of The Neighbourhood""",fontweight=1000,fontsize=14, ma='center')
     plt.savefig("imgs/Duration_all_time.png")
@@ -189,5 +194,8 @@ of The Neighbourhood""",fontweight=1000,fontsize=14, ma='center')
 # song_popularity_album()
 # song_duration_album()
 
+# song_duration_all_times(7)
+
+# song_popularity_all_times(4)
 
 
