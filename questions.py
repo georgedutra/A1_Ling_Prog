@@ -31,6 +31,39 @@ def palette_all_songs(n, best="turquoise", worst="red"):
         pal.append(worst)
     return pal
 
+
+
+
+def ms_to_min_sec(ms):
+    #Convert miliseconds to minutes.
+    minutes = ms / 1000 / 60
+
+    #Get the rest of the previous division.
+    seconds = ms / 1000 % 60
+
+    #Convert the minutes and the seconds to int (would be strange to return something
+    #like 1.67:45.6, min:sec).
+    seconds=int(seconds)
+    minutes=int(minutes)
+
+    decimal=list()
+    for i in range(0,10):
+        decimal.append(i)
+  
+    #If seconds are less than 10 the return would be something like 4:6 is better if 
+    #it's 4:06.  
+    if seconds in decimal:
+        return f"{minutes}.0{seconds}"
+    else:
+        return f"{minutes}.{seconds}"
+
+
+def df_handling():
+    df_spotify=df_spotify.drop(labels=['Female Robbery', 'Fallen Star','Middle of Somewhere',
+    'Spotify Sessions','Sweater Weather (Young Saab Remix)','Yellow Box',"Daddy Issues (Remix) feat. Syd",
+    "Thank You,"], level='Album')
+    df_spotify['tracks_duration']=df_spotify['tracks_duration_ms'].apply(ms_to_min_sec)
+
 def read_csv():
     df=pd.read_csv('final_df.csv',index_col=[0,1])
     return df
@@ -51,13 +84,27 @@ def plt_changes(plot,x_label,y_label,album=''):
 
 def plt_changes_all_times( best_legend, worst_legend, title,
 worst_color="red", best_color="turquoise"):
+    if "Longest" in best_legend:
+        x_coord=0.689
+    else:
+        x_coord=0.674
     plt.figtext(0.895, 0.2, best_legend , ha="right", fontsize=36)
-    plt.figtext(0.6895, 0.205, s='             ', bbox={"facecolor": best_color, "pad": 10})
+    plt.figtext(x_coord, 0.205, s='             ', bbox={"facecolor": best_color, "pad": 10})
     plt.figtext(0.90, 0.145, worst_legend , ha="right", fontsize=36)
-    plt.figtext(0.6895, 0.155, s='             ', bbox={"facecolor": worst_color, "pad": 10})
+    plt.figtext(x_coord, 0.155, s='             ', bbox={"facecolor": worst_color, "pad": 10})
     plt.title(title, weight='bold',fontsize=30, ma='center')
 
+def head_and_tail(df,column,n):
+    #Set the "Music" level of MultiIndex as index.
 
+    df.index = df.index.get_level_values("Music")
+    new_df=df.sort_values(column, ascending=False)
+    new_df=new_df.drop_duplicates()
+    #get head and tail of the DF and concat as a new DF
+    df_head=new_df.head(n)
+    df_tail=new_df.tail(n)
+    new_df=pd.concat((df_head,df_tail))
+    return new_df
 
 
 def song_popularity_album():
@@ -146,49 +193,36 @@ bbox={"facecolor": "white", "pad": 10})
 def song_popularity_all_times(n):
     df = read_csv()
 
-    #Set the "Music" level of MultiIndex as index.
-    df.index = df.index.get_level_values("Music")
-    df=df.sort_values('tracks_popularity', ascending=False)
-
-    #get head and tail of the DF and concat as a new DF
-    df_head=df.head(n)
-    df_tail=df.tail(n)
-    df=pd.concat((df_head,df_tail))
+    df_head_tail=head_and_tail(df,"tracks_popularity",n)
     
     #Creates a palette for the chart
     pal=palette_all_songs(n)
 
 
     plt.figure(figsize=(32,18))
-    plot=sns.barplot(data=df, y=df.index, x="tracks_popularity", palette=pal)
+    plot=sns.barplot(data=df_head_tail, y=df_head_tail.index, x="tracks_popularity", palette=pal)
 
-    legend_long="Most popular songs all times"
-    legend_short="Least popular songs all times"
+    legend_popular="Most popular songs all times"
+    legend_not_so_popular="Least popular songs all times"
     title="The better and the worst perfoming songs of The Neighbourhood"
 
     plt_changes(plot,"Popularity","Songs")
-    plt_changes_all_times(best_legend=legend_long,worst_legend=legend_short, title=title)
+    plt_changes_all_times(best_legend=legend_popular,worst_legend=legend_not_so_popular, title=title)
 
-    plt.savefig("imgs/Popularity_all_time.png", bbox_inches='tight')
+    plt.savefig("imgs/popularity/Popularity_all_time.png", bbox_inches='tight')
     plt.close()
 
 def song_duration_all_times(n):
     df = read_csv()
 
-    #Set the "Music" level of MultiIndex as index.
-    df.index = df.index.get_level_values("Music")
-    df=df.sort_values('tracks_duration', ascending=False)
-
-    #get head and tail of the DF and concat as a new DF
-    df_head=df.head(n)
-    df_tail=df.tail(n)
-    df=pd.concat((df_head,df_tail))
+    
+    df_head_tail=head_and_tail(df, "tracks_duration_ms",n)
     
     #Creates a palette for the chart
     pal=palette_all_songs(n)
 
     plt.figure(figsize=(32,18))
-    plot=sns.barplot(data=df, y=df.index, x="tracks_duration", palette=pal)
+    plot=sns.barplot(data=df_head_tail, y=df_head_tail.index, x="tracks_duration", palette=pal)
 
     legend_long="Longest songs of all times"
     legend_short="Shortest songs of all times"
@@ -197,7 +231,7 @@ def song_duration_all_times(n):
     plt_changes(plot,"Duration (min)","Songs")
     plt_changes_all_times(best_legend=legend_long,worst_legend=legend_short, title=title)
 
-    plt.savefig("imgs/Duration_all_time.png", bbox_inches='tight')
+    plt.savefig("imgs/duration/Duration_all_time.png", bbox_inches='tight')
     plt.close()
 
 
@@ -205,8 +239,8 @@ def song_duration_all_times(n):
 #song_popularity_album()
 # song_duration_album()
 
-song_duration_all_times(7)
+song_duration_all_times(6)
 
-song_popularity_all_times(2)
+#song_popularity_all_times(2)
 
 

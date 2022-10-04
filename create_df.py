@@ -3,30 +3,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 import pandas as pd
 from spotify_api import get_tracks_data
-from mus_br_letras import get_nbhd_songs
 
-def ms_to_min_sec(ms):
-    #Convert miliseconds to minutes.
-    minutes = ms / 1000 / 60
-
-    #Get the rest of the previous division.
-    seconds = ms / 1000 % 60
-
-    #Convert the minutes and the seconds to int (would be strange to return something
-    #like 1.67:45.6, min:sec).
-    seconds=int(seconds)
-    minutes=int(minutes)
-
-    decimal=list()
-    for i in range(0,10):
-        decimal.append(i)
-  
-    #If seconds are less than 10 the return would be something like 4:6 is better if 
-    #it's 4:06.  
-    if seconds in decimal:
-        return f"{minutes}.0{seconds}"
-    else:
-        return f"{minutes}.{seconds}"
 
 
 def make_MultiIndex(dic):
@@ -75,17 +52,10 @@ def make_df(dic):
         data=dic[key]
         partial_df=pd.DataFrame(data).drop("tracks_names", axis=1)
         df=pd.concat([df,partial_df])
-
-    #Handling the DF before save as csv.   
+ 
     df_spotify=df.set_index(make_MultiIndex(dic))
-    df_spotify=df_spotify.drop(labels=['Female Robbery', 'Fallen Star','Middle of Somewhere',
-    'Spotify Sessions','Sweater Weather (Young Saab Remix)','Yellow Box',"Daddy Issues (Remix) feat. Syd",
-    "Thank You,"], level='Album')
-    df_spotify['tracks_duration']=df_spotify['tracks_duration_ms'].apply(ms_to_min_sec)
-
     #Save
     df_spotify.to_csv("final_df.csv")
-
     #If needed to use the DF directly.
     return df_spotify
 
