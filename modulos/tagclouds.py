@@ -1,3 +1,6 @@
+"""Module to generate TagCloud images based on music databases
+"""
+
 import numpy as np
 import pandas as pd
 import wordcloud as wc
