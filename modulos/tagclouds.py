@@ -98,11 +98,15 @@ def frequency(text: str) -> multidict.MultiDict:
     # Then, we split the text word by word, and count each ocurrence
     for word in text.split(" "):
         # This regex line excludes common prepositions and articles we don't want to count
-        if re.match("a|the|an|the|to|in|for|of|or|by|with|is|on|that|be", word):
+        if re.match("a|the|an|the|to|in|for|of|or|by|with|is|on|that|be|&|-", word):
             continue
         appears = freq_dict.get(word, 0)
         freq_dict[word.lower()] = appears + 1
 
+    # Let's remove some unwished characters
+    if "" in freq_dict:
+        freq_dict.pop("")
+    
     # Finally, we transfer all the information from the standard dict to the MultiDict, and return it
     for key in freq_dict:
         frequency_multidict.add(key, freq_dict[key])
