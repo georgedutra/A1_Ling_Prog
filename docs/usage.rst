@@ -28,6 +28,7 @@ To create a dictionary with all the lyrics from `Letras <https://www.letras.mus.
    :noindex:
 
 Finally, if you want to generate a *.csv* so you don't have to do the scrapper all the time, with all the information, you can use
-*aqui entra o dataframe* function:
+``create_df.create_final_dataframe()`` function:
 
--função-
+.. autofunction:: create_df.create_final_dataframe()
+   :noindex:
