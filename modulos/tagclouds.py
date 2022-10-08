@@ -10,7 +10,7 @@ import re
 def lyrics_all(df):
     """Receives a DataFrame with musics and returns a string with every lyric concatenated
 
-    :param df: musics DataFrame with one column 'Lyric' that has each music's lyrics as strings
+    :param df: musics DataFrame with one column 'Lyrics' that has each music's lyrics as strings
     :type df: pd.DataFrame
     :return: string with every artist's music lyrics concatenated
     :rtype: str
@@ -19,11 +19,11 @@ def lyrics_all(df):
         raise TypeError("The function only accepts DataFrames as parameters.")
     
     try:
-        lyrics_list = list(df["Lyric"])
+        lyrics_list = list(df["Lyrics"])
         concatenated_string = " ".join(lyrics_list)
     
     except KeyError:
-        print("DataFrame has no column 'Lyric'.")
+        print("DataFrame has no column 'Lyrics'.")
         return ""
     except TypeError:
         print("Some of the lyrics are not strings, and must be changed.")
@@ -35,7 +35,7 @@ def lyrics_all(df):
 def lyrics_albuns(df):
     """Receives a dataframe with musics and return a dictionary with all albums names and all music's lyrics in each album concatenated as a string.
 
-    :param df: Dataframe with an 'Album' Multi-Index (the name of the album each music belongs to), and a 'Lyric' column with each song's lyrics as strings
+    :param df: Dataframe with an 'Album' Multi-Index (the name of the album each music belongs to), and a 'Lyrics' column with each song's lyrics as strings
     :type df: pd.DataFrame
     :return: Dictionary with albums names as keys, and all music's lyrics in each album concatenated as a string, as the key's values.
     :rtype: dict
@@ -132,7 +132,7 @@ def frequency_generator(frequencies, file_name):
 def generate_cloud_lyrics(df):
     """Receives a DataFrame with musics and generates a TagCloud image named 'all_lyrics_tagcloud.png' according to the most frequent words in all lyrics
 
-    :param df: A DataFrame with a 'Lyric' column, with all music's lyrics as strings
+    :param df: A DataFrame with a 'Lyrics' column, with all music's lyrics as strings
     :type df: pd.DataFrame
     """
     frq_dict = frequency(lyrics_all(df))
@@ -141,7 +141,7 @@ def generate_cloud_lyrics(df):
 def generate_cloud_albuns(df):
     """Receives a DataFrame with musics and generates a TagCloud image named '{album_name}_tagcloud.png' according to the most frequent words in each album's lyrics
 
-    :param df: A DataFrame with an index called 'Album' and a 'Lyric' column, with all music's lyrics as strings
+    :param df: A DataFrame with an index called 'Album' and a 'Lyrics' column, with all music's lyrics as strings
     :type df: pd.DataFrame
     """
     # Picks a dictionary with each album's lyrics, and generate a tagcloud for each album
