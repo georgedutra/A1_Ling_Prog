@@ -1,4 +1,3 @@
-from ast import Global
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.simplefilter(action='ignore', category=UserWarning)
@@ -23,21 +22,26 @@ def ms_to_min(ms):
     minutes = ms / 1000 / 60
     return minutes
 
-def df_handling(df):
+def df_handling(df, identifier):
     """This function handles the Dataframe by dropping the unwanted albums and 
     creating a column for the duration in minutes.
 
     :param df: A dataFrame
     :type df: pandas.core.frame.DataFrame
+    :param identifier: An identifier used to select what albuns will not be in the analysis
+    :type identifier: str
     :return: A dataframe handled
     :rtype: pandas.core.frame.DataFrame
     """    
     
     #A list of all the unwanted albums
-    albums_drop=['Female Robbery', 'Fallen Star',"batata",'Middle of Somewhere',
+    if identifier == 'Albums':
+        albums_drop=['Female Robbery', 'Fallen Star',"batata",'Middle of Somewhere',
     'Spotify Sessions','Sweater Weather (Young Saab Remix)','Yellow Box',"Daddy Issues (Remix) feat. Syd",
     "Thank You,","Halloween Spooky Hits"]
-    
+    else:
+        albums_drop=["Halloween Spooky Hits"]
+
     new_df=df.copy(deep=True)
     #drop all the albums unwanted for the analysis
     for album in albums_drop:
@@ -50,9 +54,11 @@ def df_handling(df):
 
     return new_df
 
-def handled_df():
+def handled_df(identifier=""):
     """Creates a dataframe from a csv to be handled.
 
+    :param identifier: An identifier used to select what albuns will not be in the analysis, defaults to ""
+    :type identifier: str, optional
     :return: The handled df that will be used in the questions.
     :rtype: pandas.core.frame.DataFrama
     """    
@@ -61,7 +67,7 @@ def handled_df():
     df=pd.read_csv('../TNBH_Data.csv',index_col=[0,1])
 
     #does all the needed changes into the df
-    df=df_handling(df)
+    df=df_handling(df,identifier)
 
     return df
 
@@ -228,7 +234,7 @@ def song_popularity_album(df):
     """    
 
     #Creates a pdf object that will allow to save all figures in a single pdf file.
-    pdf_file=PdfPages("..\images\popularity\Popularity_per_album.pdf")
+    pdf_file=PdfPages("..\images\Popularity_per_album.pdf")
 
     #A numpy array with the values of the first level of MultiIndex.
     albums=np.unique(df.index.get_level_values('Album'))
@@ -275,7 +281,7 @@ def song_duration_album(df):
     """
 
     #Creates a pdf object that will allow to save all figures in a single pdf file.
-    pdf_file=PdfPages("../images/duration/Duration_per_album.pdf")
+    pdf_file=PdfPages("../images/Duration_per_album.pdf")
 
     #A numpy array with the values of the first level of MultiIndex.
     albums=np.unique(df.index.get_level_values('Album'))
@@ -343,7 +349,7 @@ def song_popularity_all_times(df,n):
     plt_changes_all_times(best_legend=legend_popular,worst_legend=legend_not_so_popular, title=title)
 
     #save and close the figure
-    plt.savefig("../images/popularity/Popularity_all_time.png", bbox_inches='tight')
+    plt.savefig("../images/Popularity_all_time.pdf", bbox_inches='tight')
     plt.close()
 
 def song_duration_all_times(df,n):
@@ -377,7 +383,7 @@ def song_duration_all_times(df,n):
     plt_changes_all_times(best_legend=legend_long,worst_legend=legend_short, title=title)
 
     #save and close the figure
-    plt.savefig("../images/duration/Duration_all_time.png", bbox_inches='tight')
+    plt.savefig("../images/Duration_all_time.pdf", bbox_inches='tight')
     plt.close()
 
 
@@ -397,7 +403,7 @@ def scatterplot(df):
     mean=round(df['tracks_popularity'].mean(),1)
 
     #Creates a PDF object that will allow to save all figures in a single PDF file
-    pdf_file=PdfPages('../images/correlation/Correlation_duration_popularity.pdf')
+    pdf_file=PdfPages('../images/Correlation_duration_popularity.pdf')
 
     #The size of the figure
     fig=plt.figure(figsize=(32,18))
@@ -446,10 +452,13 @@ of most songs, popular or not.""", ha="left", fontsize=25)
 #update the handling function to eliminate albuns with less than 3 musics  and other things
 #finish with trys and exceptions
 
-#df=handled_df()
+# df_albums=handled_df('Albums')
+# df=handled_df()
 
-# song_duration_album(df)
-# song_popularity_album(df)
+# song_duration_album(df_albums)
+# song_popularity_album(df_albums)
 # song_duration_all_times(df,4)
 # song_popularity_all_times(df,4)
-#scatterplot(df)
+# scatterplot(df)
+
+
