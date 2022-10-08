@@ -4,7 +4,6 @@
 import numpy as np
 import pandas as pd
 import tagclouds as tag
-import multidict
 
 def dict_to_series(dict):
     """Receives a dictionary with words and frequency numbers and returns a Series object sorted by descending values
@@ -51,7 +50,7 @@ def question_2(df):
 def question_3(df):
     """Receives a DataFrame with musics information and print at the console wich words are the most common among each album's music's lyrics 
 
-    :param df: DataFrame with one MultiIndex named 'Album' and one column named 'Lyric' with the band's music's lyrics as strings
+    :param df: DataFrame with one MultiIndex named 'Album' and one column named 'Lyrics' with the band's music's lyrics as strings
     :type df: pd.DataFrame
     """
     try:
@@ -62,18 +61,18 @@ def question_3(df):
         tag.generate_cloud_albuns(df)
         print("\nGenerated TagCloud with each album's lyric's most common words.", "\n\n","="*60, sep="")
     except KeyError as error:
-        print(f"{error}, DataFrame must have an index named 'Album' and a column named 'Lyric' for question .")
+        print(f"{error}, DataFrame must have an index named 'Album' and a column named 'Lyrics' for question .")
         
 def question_4(df):
     """Receives a DataFrame with musics information and print at the console wich words are the most common among all music's lyrics 
 
-    :param df: DataFrame with one column named 'Lyric' with the band's music's lyrics as strings
+    :param df: DataFrame with one column named 'Lyrics' with the band's music's lyrics as strings
     :type df: pd.DataFrame
     """
     try:
         lyrics_freq = dict_to_series(tag.frequency(tag.lyrics_all(df)))
     except KeyError as error:
-        print(f"{error}, DataFrame must have a column named 'Lyric' for question 4.")
+        print(f"{error}, DataFrame must have a column named 'Lyrics' for question 4.")
     else:
         print("\nThe most common words in the lyrics from the whole band's discography are:\n", lyrics_freq[0:5].index.values, "\n\nGenerating TagCloud with all lyrics most common words...\n\n","="*60, sep="")
         tag.generate_cloud_lyrics(df)
@@ -81,7 +80,7 @@ def question_4(df):
 def question_5(df):
     """Receives a DataFrame with musics information and verify if at least half the albums have it's titles in some of it's music's lyrics  
 
-    :param df: DataFrame with one MultiIndex named 'Album' and one column named 'Lyric' with the band's music's lyrics as strings
+    :param df: DataFrame with one MultiIndex named 'Album' and one column named 'Lyrics' with the band's music's lyrics as strings
     :type df: pd.DataFrame
     """
     try:
@@ -92,7 +91,7 @@ def question_5(df):
             if album in lyrics[album]:
                 ocurrencies += 1
     except KeyError as error:
-        print(f"{error}, DataFrame must have an index named 'Album' and one column named 'Lyric' for question 5.")
+        print(f"{error}, DataFrame must have an index named 'Album' and one column named 'Lyrics' for question 5.")
     else:
         if ocurrencies >= (len(lyrics)/2):
             print("\nThis band's musics usually have the album's titles into it's lyrics!\n\n", "="*60,sep="")
@@ -102,7 +101,7 @@ def question_5(df):
 def question_6(df):
     """Receives a DataFrame with musics information and verify if at least half the musics have it's titles in it's own lyrics  
 
-    :param df: DataFrame with one MultiIndex named 'Music' and one column named 'Lyric' with the band's music's lyrics as strings
+    :param df: DataFrame with one MultiIndex named 'Music' and one column named 'Lyrics' with the band's music's lyrics as strings
     :type df: pd.DataFrame
     """
     try:
@@ -111,10 +110,10 @@ def question_6(df):
 
         for music in music_list:
             music_df = df.xs(music, level="Music")
-            if music in music_df.iloc[0]["Lyric"]:
+            if music in music_df.iloc[0]["Lyrics"]:
                 ocurrencies += 1
     except KeyError as error:
-        print(f"{error}, DataFrame must have an index named 'Music' and one column named 'Lyric' for question 6.")
+        print(f"{error}, DataFrame must have an index named 'Music' and one column named 'Lyrics' for question 6.")
     else:
         if ocurrencies >= (len(music_list)/2):
             print("\nThis band's musics usually have the music's title into it's lyrics!\n\n", "="*60,sep="")
