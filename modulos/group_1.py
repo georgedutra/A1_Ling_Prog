@@ -228,7 +228,7 @@ def song_popularity_album(df):
     """    
 
     #Creates a pdf object that will allow to save all figures in a single pdf file.
-    pdf_file=PdfPages("..\imgs\popularity\Popularity_per_album.pdf")
+    pdf_file=PdfPages("..\images\popularity\Popularity_per_album.pdf")
 
     #A numpy array with the values of the first level of MultiIndex.
     albums=np.unique(df.index.get_level_values('Album'))
@@ -275,7 +275,7 @@ def song_duration_album(df):
     """
 
     #Creates a pdf object that will allow to save all figures in a single pdf file.
-    pdf_file=PdfPages("../imgs/duration/Duration_per_album.pdf")
+    pdf_file=PdfPages("../images/duration/Duration_per_album.pdf")
 
     #A numpy array with the values of the first level of MultiIndex.
     albums=np.unique(df.index.get_level_values('Album'))
@@ -343,7 +343,7 @@ def song_popularity_all_times(df,n):
     plt_changes_all_times(best_legend=legend_popular,worst_legend=legend_not_so_popular, title=title)
 
     #save and close the figure
-    plt.savefig("../imgs/popularity/Popularity_all_time.png", bbox_inches='tight')
+    plt.savefig("../images/popularity/Popularity_all_time.png", bbox_inches='tight')
     plt.close()
 
 def song_duration_all_times(df,n):
@@ -377,7 +377,7 @@ def song_duration_all_times(df,n):
     plt_changes_all_times(best_legend=legend_long,worst_legend=legend_short, title=title)
 
     #save and close the figure
-    plt.savefig("../imgs/duration/Duration_all_time.png", bbox_inches='tight')
+    plt.savefig("../images/duration/Duration_all_time.png", bbox_inches='tight')
     plt.close()
 
 
@@ -397,7 +397,7 @@ def scatterplot(df):
     mean=round(df['tracks_popularity'].mean(),1)
 
     #Creates a PDF object that will allow to save all figures in a single PDF file
-    pdf_file=PdfPages('../imgs/correlation/Correlation_duration_popularity.pdf')
+    pdf_file=PdfPages('../images/correlation/Correlation_duration_popularity.pdf')
 
     #The size of the figure
     fig=plt.figure(figsize=(32,18))
