@@ -64,7 +64,7 @@ def handled_df(identifier=""):
     """    
 
     #read a csv to create a df
-    df=pd.read_csv('../TNBH_Data.csv',index_col=[0,1])
+    df=pd.read_csv('TNBH_Data.csv',index_col=[0,1])
 
     #does all the needed changes into the df
     df=df_handling(df,identifier)
@@ -234,7 +234,7 @@ def song_popularity_album(df):
     """    
 
     #Creates a pdf object that will allow to save all figures in a single pdf file.
-    pdf_file=PdfPages("..\images\Popularity_per_album.pdf")
+    pdf_file=PdfPages("images\Popularity_per_album.pdf")
 
     #A numpy array with the values of the first level of MultiIndex.
     albums=np.unique(df.index.get_level_values('Album'))
@@ -281,7 +281,7 @@ def song_duration_album(df):
     """
 
     #Creates a pdf object that will allow to save all figures in a single pdf file.
-    pdf_file=PdfPages("../images/Duration_per_album.pdf")
+    pdf_file=PdfPages("images/Duration_per_album.pdf")
 
     #A numpy array with the values of the first level of MultiIndex.
     albums=np.unique(df.index.get_level_values('Album'))
@@ -349,7 +349,7 @@ def song_popularity_all_times(df,n):
     plt_changes_all_times(best_legend=legend_popular,worst_legend=legend_not_so_popular, title=title)
 
     #save and close the figure
-    plt.savefig("../images/Popularity_all_time.pdf", bbox_inches='tight')
+    plt.savefig("images/Popularity_all_time.pdf", bbox_inches='tight')
     plt.close()
 
 def song_duration_all_times(df,n):
@@ -383,7 +383,7 @@ def song_duration_all_times(df,n):
     plt_changes_all_times(best_legend=legend_long,worst_legend=legend_short, title=title)
 
     #save and close the figure
-    plt.savefig("../images/Duration_all_time.pdf", bbox_inches='tight')
+    plt.savefig("images/Duration_all_time.pdf", bbox_inches='tight')
     plt.close()
 
 
@@ -403,7 +403,7 @@ def scatterplot(df):
     mean=round(df['tracks_popularity'].mean(),1)
 
     #Creates a PDF object that will allow to save all figures in a single PDF file
-    pdf_file=PdfPages('../images/Correlation_duration_popularity.pdf')
+    pdf_file=PdfPages('images/Correlation_duration_popularity.pdf')
 
     #The size of the figure
     fig=plt.figure(figsize=(32,18))
