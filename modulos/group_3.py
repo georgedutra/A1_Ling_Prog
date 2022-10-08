@@ -1,8 +1,8 @@
-import pandas as pd
 import numpy as np
 
 # Question 1: Wich album has the higher music duration average?
 # Question 2: Is there any relation between the music's popularity and it being explicit or not?
+#question 3: Wich album has the higher popularity average?
 
 def question_1(df):
     """Receives a DataFrame with musics information, and print at the terminal wich album has the higher music duration mean.
@@ -51,7 +51,28 @@ def question_2(df):
 #############################################################
 # Teste com csv
 
-df = pd.read_csv("TNBH_Data.csv", index_col=[0,1])
+def question_3(df):
+    """Receives a DataFrame with musics information, and print at the terminal wich album has the higher popularity mean.
 
-# question_1(df)
-question_2(df)
+    :param df: DataFrame with an index named 'Album' and a column named 'tracks_popularity' with the track's popularity as a number.
+    :type df: pd.DataFrame
+    """
+    try:
+        # Takes a list with all album's names
+        albums_list = np.unique(df.index.get_level_values("Album"))
+        higher_popularity = 0
+        album_name = ""
+        
+        for album in albums_list:
+            # For each album name, we make a cross-selection in the dataframe and calculates the duration mean
+            album_popularity = df.xs(album)["tracks_popularity"]
+            popularity_mean = album_popularity.mean()
+                        
+            # For each mean, we register the current mean and it's album name if it's higher than all previous
+            if popularity_mean > higher_popularity:
+                higher_popularity = popularity_mean
+                album_name = album
+    except KeyError as error:
+        print(error, "The dataframe must have an index called 'Album' and a column called 'tracks_popularity'.")
+    else:
+        print(f"\nThe album with the higher popularity mean is {album_name}, with an average music popularity of {higher_popularity} points.\n\n", "="*60, sep="")
