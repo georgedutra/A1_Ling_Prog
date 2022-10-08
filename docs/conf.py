@@ -139,5 +139,5 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 
-autodoc_mock_imports = ['numpy', 'pandas', 'wordcloud', 'multidict', 'matplotlib', 'seaborn']
+autodoc_mock_imports = ['numpy', 'pandas', 'wordcloud', 'multidict', 'matplotlib', 'seaborn', 'bs4']
 
