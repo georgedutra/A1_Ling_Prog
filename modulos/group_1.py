@@ -1,3 +1,4 @@
+from ast import Global
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.simplefilter(action='ignore', category=UserWarning)
@@ -11,41 +12,51 @@ import pandas as pd
 
 sns.set_theme(context="paper", style="darkgrid")
 
-def ms_to_min_sec(ms):
-    #Convert miliseconds to minutes.
+def ms_to_min(ms):
+    """A simple millisecond to min converter.
+
+    :param ms: The number of Miliseconds to be converted
+    :type ms: Int
+    :return: The number of minutes.
+    :rtype: Float
+    """    
     minutes = ms / 1000 / 60
-
-    #Get the rest of the previous division.
-    seconds = ms / 1000 % 60
-
-    #Convert the minutes and the seconds to int (would be strange to return something
-    #like 1.67:45.6, min:sec).
-    seconds=int(seconds)
-    minutes=int(minutes)
-
-    decimal=list()
-    for i in range(0,10):
-        decimal.append(i)
-  
-    #If seconds are less than 10 the return would be something like 4:6 is better if 
-    #it's 4:06.  
-    if seconds in decimal:
-        return float(f"{minutes}.0{seconds}")
-    else:
-        return float(f"{minutes}.{seconds}")
+    return minutes
 
 def df_handling(df):
-    #drop all the albums unwanted for the analysis
-    new_df=df.drop(labels=['Female Robbery', 'Fallen Star','Middle of Somewhere',
-    'Spotify Sessions','Sweater Weather (Young Saab Remix)','Yellow Box',"Daddy Issues (Remix) feat. Syd",
-    "Thank You,","Halloween Spooky Hits"], level='Album')
+    """This function handles the Dataframe by dropping the unwanted albums and 
+    creating a column for the duration in minutes.
 
-    #Creates a new column using the apply method with the ms_to_min_sec to a previous column
-    new_df['tracks_duration']=new_df['tracks_duration_ms'].apply(ms_to_min_sec)
+    :param df: A dataFrame
+    :type df: pandas.core.frame.DataFrame
+    :return: A dataframe handled
+    :rtype: pandas.core.frame.DataFrame
+    """    
+    
+    #A list of all the unwanted albums
+    albums_drop=['Female Robbery', 'Fallen Star',"batata",'Middle of Somewhere',
+    'Spotify Sessions','Sweater Weather (Young Saab Remix)','Yellow Box',"Daddy Issues (Remix) feat. Syd",
+    "Thank You,","Halloween Spooky Hits"]
+    
+    new_df=df.copy(deep=True)
+    #drop all the albums unwanted for the analysis
+    for album in albums_drop:
+        try:
+            new_df=new_df.drop(labels=album, level='Album')
+        except KeyError:
+            pass
+    #Creates a new column using the apply method with the ms_to_min to a previous column
+    new_df['tracks_duration']=new_df['tracks_duration_ms'].apply(ms_to_min)
 
     return new_df
 
 def read_csv():
+    """Creates a dataframe from a csv to be handled.
+
+    :return: The handled df that will be used in the questions.
+    :rtype: pandas.core.frame.DataFrama
+    """    
+
     #read a csv to create a df
     df=pd.read_csv('../TNBH_Data.csv',index_col=[0,1])
 
@@ -56,6 +67,21 @@ def read_csv():
 
 def set_highlight_palette(column, max_color = 'turquoise', min_color = "red", 
 other_color = 'lightgrey'):
+    """Creats a list to use as palette to highlight the max and min of each case in the questions 1 
+    and 2.
+
+    :param column: The column
+    :type column: pandas.core.series.Series
+    :param max_color: A color to represent the max of the series, defaults to 'turquoise'
+    :type max_color: str, optional
+    :param min_color: A color to represent the min of the series, defaults to "red"
+    :type min_color: str, optional
+    :param other_color: a color to represent all other elements of the series, defaults to 'lightgrey'
+    :type other_color: str, optional
+    :return: A list that will be used as palette
+    :rtype: list
+    """
+
     #checks the max and min items in the column.
     max_val = column.max()
     min_val= column.min()
@@ -74,7 +100,20 @@ other_color = 'lightgrey'):
     return pal
 
 def palette_all_songs(n, best="turquoise", worst="red"):
-    #empty list 
+    """Creats a list to use as palette to highlight the n-max and n-min of each case 
+    in the questions 3 and 4.
+
+    :param n: The integer to be used as the number of max's and min's 
+    :type n: int
+    :param best: The color to represent the max's, defaults to "turquoise"
+    :type best: str, optional
+    :param worst: The color to represent the min's, defaults to "red"
+    :type worst: str, optional
+    :return: A list what will be used as palette.
+    :rtype: list
+    """    
+    
+    #empty list
     pal=list()
 
     #iteration over a range to fill the pal list 
@@ -86,6 +125,17 @@ def palette_all_songs(n, best="turquoise", worst="red"):
     return pal
 
 def plt_changes(plot,x_label,y_label,album=''):
+    """Make changes on the plots for all questions
+
+    :param plot: The plot that will receive the changes.
+    :type plot: matplotlib.axes._subplots.AxesSubplot
+    :param x_label: The label to be used on the x-axis
+    :type x_label: str
+    :param y_label: The label to be used on the y-axis
+    :type y_label: str
+    :param album: The name of the album to used as title of the chart, defaults to ''
+    :type album: str, optional
+    """    
 
     #These lines are responsible for setting the labels.
     plot.set_xlabel(xlabel=x_label, fontsize=30,labelpad=5)
@@ -100,37 +150,67 @@ def plt_changes(plot,x_label,y_label,album=''):
 
 def plt_changes_all_times( best_legend, worst_legend, title,
 worst_color="red", best_color="turquoise"):
-    """_summary_
+    """Make especial changes on the plot of questions 3 and 4.
 
-    :param best_legend: _description_
-    :type best_legend: _type_
-    :param worst_legend: _description_
-    :type worst_legend: _type_
-    :param title: _description_
-    :type title: _type_
-    :param worst_color: _description_, defaults to "red"
+    :param best_legend: A string to be used in the legend to represet the longest/most popular songs
+    :type best_legend: str
+    :param worst_legend: A string to be used in the legend to represet the shortest/least popular songs
+    :type worst_legend: str
+    :param title: The title of the chart
+    :type title: str
+    :param worst_color: The color to represent the shortest/least popular songs in the legend, defaults to "red"
     :type worst_color: str, optional
-    :param best_color: _description_, defaults to "turquoise"
+    :param best_color: The color to represent the shortest/least popular songs in the legend, defaults to "turquoise"
     :type best_color: str, optional
     """
+    #To make the legends look good in both cases
     if "Longest" in best_legend:
         x_coord=0.689
     else:
         x_coord=0.674
+
+    #Just to make a small legend for the chart
     plt.figtext(0.895, 0.2, best_legend , ha="right", fontsize=36)
     plt.figtext(x_coord, 0.205, s='             ', bbox={"facecolor": best_color, "pad": 10})
     plt.figtext(0.90, 0.145, worst_legend , ha="right", fontsize=36)
     plt.figtext(x_coord, 0.155, s='             ', bbox={"facecolor": worst_color, "pad": 10})
     plt.title(title, weight='bold',fontsize=30, ma='center')
 
+def drop_duplicated_songs(df):
+    """Drops all the songs that repeat throughout the albums.
+
+    :param df: a df with repeated indexes on a level of MultiIndex
+    :type df: pandas.core.frame.DataFrame
+    :return: a df without the repeated indexes
+    :rtype: pandas.core.frame.DataFrame
+    """    
+    #drop all the music that repeat into diferent albuns
+    new_df=df.copy(deep=True)
+    new_df.index = df.index.get_level_values("Music")
+    new_df = df[~df.index.duplicated(keep='first')]
+    return new_df
+
 def head_and_tail(df,column,n):
+    """Creates a new_df with the head and tail of the df sorted.
+
+    :param df: A df that will be ordered and then sliced
+    :type df: pandas.core.frame.DataFrame
+    :param column: A string thats is used to know from where the function is being called
+    :type column: str
+    :param n: a number to be used as parameter for the head and tail method from pandas
+    :type n: int
+    :return: A new_df with n items from the head and n items from the tail 
+    :rtype: pandas.core.frame.DataFrame
+    """    
     #Set the "Music" level of MultiIndex as index.
     df.index = df.index.get_level_values("Music")
 
     #Sort the values with respect to a column
     new_df=df.sort_values(column, ascending=False)
 
-    new_df=new_df.drop_duplicates()
+    #if the function is being called from song_duration_all_time() drop the repeated songs
+    if column == "tracks_duration_ms":
+        new_df=drop_duplicated_songs(new_df)
 
 
     #get head and tail of the DF and concat as a new DF
@@ -141,13 +221,15 @@ def head_and_tail(df,column,n):
 
 
 def song_popularity_album():
-    """Create a bar chart of each album to answer the question 'which songs are most 
+    """Create a pdf file with bar charts for each album to answer the question 'which songs are the most 
     and least popular per album?
     """    
 
     #Call the function that will read a csv file and create a dataframe with the proper 
     #handling for the analysis.
     df=read_csv()
+    #Creates a pdf object that will allow to save all figures in a single pdf file.
+    pdf_file=PdfPages("..\imgs\popularity\Popularity_per_album.pdf")
 
     #A numpy array with the values of the first level of MultiIndex.
     albums=np.unique(df.index.get_level_values('Album'))
@@ -165,13 +247,13 @@ def song_popularity_album():
         least_popular=df_sliced["tracks_popularity"].astype(float).idxmin()
 
         #The size of the charts.
-        plt.figure(figsize=(32,18))
+        fig=plt.figure(figsize=(32,18))
 
         #Seaborn to make the visualization.
         plot=sns.barplot(data=df_sliced, x="tracks_popularity", y=df_sliced.index,
         palette=set_highlight_palette(df_sliced["tracks_popularity"]))
 
-        #Make plt changes 
+        #Make plt changes.
         plt_changes(plot, "Songs", "Popularity", album )
 
         #Footnote.
@@ -179,17 +261,23 @@ def song_popularity_album():
 {most_popular} and the least is {least_popular}.""", ha="left", fontsize=30, 
 bbox={"facecolor": "white", "pad": 10})
 
-        #Save and close the plot.
-        plt.savefig(f"../imgs/popularity/{album}_popularity.png", bbox_inches='tight')
+        #Save a figure to the pdf and close the plot
+        pdf_file.savefig(fig, bbox_inches='tight')
         plt.close()
+    #Close the pdf file
+    pdf_file.close()
 
 def song_duration_album():
-    """ Create a bar chart of each album to answer the question 'which songs are 
-    longest and which are shortest per album?' """
+    """ Create pdf file with bar charts for each album to answer the question 'which songs are 
+    longest and which are shortest per album?' 
+    """
 
     #Call the function that will read a csv file and create a dataframe with the proper 
     #handling for the analysis.
     df=read_csv()      
+
+    #Creates a pdf object that will allow to save all figures in a single pdf file.
+    pdf_file=PdfPages("../imgs/duration/Duration_per_album.pdf")
 
     #A numpy array with the values of the first level of MultiIndex.
     albums=np.unique(df.index.get_level_values('Album'))
@@ -207,25 +295,32 @@ def song_duration_album():
         shortest=df_sliced["tracks_duration_ms"].astype(float).idxmin()
 
         #The size of the charts.
-        plt.figure(figsize=(32,18))
+        fig=plt.figure(figsize=(32,18))
 
         #Seaborn to make the visualization.
         plot=sns.barplot(data=df_sliced, x="tracks_duration", y=df_sliced.index,
         palette=set_highlight_palette(df_sliced["tracks_duration"]))
 
         #Make plt changes
-        plt_changes(plot, "Songs", "Duration (min)", album)
+        plt_changes(plot, "Duration (min)","Songs", album)
 
         #Footnote.
         plt.figtext(0, 0, f"""The longest song of {album} is 
 {longest} and the shortest is {shortest}.""", ha="left", fontsize=30, 
 bbox={"facecolor": "white", "pad": 10})
 
-        #Save and close the plot.
-        plt.savefig(f"../imgs/duration/{album}_duration.png",bbox_inches='tight')
+        #Save a figure to the pdf and close the plot.
+        pdf_file.savefig(fig,bbox_inches='tight')
         plt.close()
+    #Close the pdf file
+    pdf_file.close()
 
 def song_popularity_all_times(n):
+    """Creates a bar chart with the n-most and n-least popular song of all times.
+
+    :param n: How much elements for most/least popular to be plotted in the chart.
+    :type n: int
+    """    
 
     #Call the function that will read a csv file and create a dataframe with the proper 
     #handling for the analysis.
@@ -256,6 +351,12 @@ def song_popularity_all_times(n):
     plt.close()
 
 def song_duration_all_times(n):
+    """Creates a bar chart with the n-longest and n-shortest popular song of all times.
+
+    :param n: How much elements for longest/shortest to be plotted in the chart.
+    :type n: int
+    """    
+
     #Call the function that will read a csv file and create a dataframe with the proper 
     #handling for the analysis.
     df = read_csv()
@@ -275,7 +376,7 @@ def song_duration_all_times(n):
     #Variables to be used in the function plt_changes_all_times
     legend_long="Longest songs of all times"
     legend_short="Shortest songs of all times"
-    title="The better and the worst perfoming songs of The Neighbourhood"
+    title="The longest and the shortest songs of The Neighbourhood"
 
     #functions that make the proper adjusts to labels and other elements of the chart
     plt_changes(plot,"Duration (min)","Songs")
@@ -288,6 +389,10 @@ def song_duration_all_times(n):
 
 
 def scatterplot():
+    """
+    Creates a scatterplot to visualize any correlations between the popularity and the duration of the musics.
+    """    
+
     #Call the function that will read a csv file and create a dataframe with the proper 
     #handling for the analysis.
     df=read_csv()
@@ -297,17 +402,17 @@ def scatterplot():
     mean=round(df['tracks_popularity'].mean(),1)
 
     #Creates a PDF object that will allow to save all figures in a single PDF file
-    pdf_file=PdfPages('../imgs/Correlation_question_1_6.pdf')
+    pdf_file=PdfPages('../imgs/correlation/Correlation_duration_popularity.pdf')
 
     #The size of the figure
     fig=plt.figure(figsize=(32,18))
 
     #Seaborn to make the plot
-    corr_plot=sns.scatterplot(data=df, y='tracks_duration', x="tracks_popularity")
+    corr_plot=sns.scatterplot(data=df, y='tracks_duration', x="tracks_popularity", s=100)
 
     #Rectangles that will highlight important sections of the chart.
     rect=mpatches.Rectangle((0,3),100,1.5,alpha=0.1, facecolor='green')
-    rect_shorts=mpatches.Rectangle((0,0),48,1.4,alpha=0.1, facecolor='red')
+    rect_shorts=mpatches.Rectangle((0,0),48,1.5,alpha=0.1, facecolor='red')
 
     #Function that make the proper adjusts to labels and other elements of the chart.
     plt_changes(corr_plot,"Popularity","Duration (min)", "Popularity and Duration correlation")
@@ -342,14 +447,16 @@ of most songs, popular or not.""", ha="left", fontsize=25)
 
 
 
-#finalizar coments in all funcs DONE
-#commit 
-#update min to sec func to be only mins
-#update the handling function to eliminate albuns with less than 3 musics  and other things
-#check all duration to see if its still right
-#make the functios for question 1 and 2 return a pdf with all images for that question
-#finish with trys and exceptions
-#make the docstring in all functions
 
+#update the handling function to eliminate albuns with less than 3 musics  and other things
+#finish with trys and exceptions
+#find a way to remove the unecessary things from git hub
+
+
+song_duration_album()
+song_duration_all_times(4)
+song_popularity_album()
+song_popularity_all_times(4)
+scatterplot()
 
 
