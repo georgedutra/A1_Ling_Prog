@@ -4,7 +4,7 @@ import numpy as np
 # Question 1: Wich album has the higher music duration average?
 # Question 2: Is there any relation between the music's popularity and it being explicit or not?
 
-def question_1(df:pd.DataFrame):
+def question_1(df):
     """Receives a DataFrame with musics information, and print at the terminal wich album has the higher music duration mean.
 
     :param df: DataFrame with an index named 'Album' and a column named 'tracks_duration_ms' with the track's duration as numbers (in miliseconds)
@@ -30,7 +30,7 @@ def question_1(df:pd.DataFrame):
     else:
         print(f"\nThe album with the higher duration mean is {album_name}, with an average music duration of {higher_duration} miliseconds.\n\n", "="*60, sep="")
 
-def question_2(df:pd.DataFrame):
+def question_2(df):
     """Receives a DataFrame with musics information, and print at the terminal wheter the music's popularity is related to the lyrics being explicit or not
 
     :param df: DataFrame with a column named 'tracks_popularity' with numbers and other column named 'tracks_explicit' with booleans

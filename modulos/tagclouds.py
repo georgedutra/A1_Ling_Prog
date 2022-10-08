@@ -19,14 +19,14 @@ def lyrics_all(df):
         raise TypeError("The function only accepts DataFrames as parameters.")
     
     try:
-        lyrics_list = list(df["Lyrics"])
+        lyrics_list = list(df["Lyrics"].astype("str"))
         concatenated_string = " ".join(lyrics_list)
     
     except KeyError:
         print("DataFrame has no column 'Lyrics'.")
         return ""
     except TypeError:
-        print("Some of the lyrics are not strings, and must be changed.")
+        print("Some of the lyrics are not strings, and can't be converted.")
         return ""
     
     else:
@@ -101,7 +101,7 @@ def frequency(text):
     # Then, we split the text word by word, and count each ocurrence
     for word in text.split(" "):
         # This regex line excludes common prepositions and articles we don't want to count
-        if re.match("a|the|an|the|to|in|for|of|or|by|with|is|on|that|be|&|-", word):
+        if re.match("a|the|an|the|to|in|for|of|or|by|with|is|on|that|be|&|-|nan", word):
             continue
         appears = freq_dict.get(word, 0)
         freq_dict[word.lower()] = appears + 1
