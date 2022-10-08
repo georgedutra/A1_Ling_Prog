@@ -50,7 +50,7 @@ def df_handling(df):
 
     return new_df
 
-def read_csv():
+def handled_df():
     """Creates a dataframe from a csv to be handled.
 
     :return: The handled df that will be used in the questions.
@@ -220,14 +220,13 @@ def head_and_tail(df,column,n):
     return new_df
 
 
-def song_popularity_album():
+def song_popularity_album(df):
     """Create a pdf file with bar charts for each album to answer the question 'which songs are the most 
     and least popular per album?
+    :param df: A handled df to used in the answer.
+    :type df: pandas.core.frame.DataFrame.
     """    
 
-    #Call the function that will read a csv file and create a dataframe with the proper 
-    #handling for the analysis.
-    df=read_csv()
     #Creates a pdf object that will allow to save all figures in a single pdf file.
     pdf_file=PdfPages("..\imgs\popularity\Popularity_per_album.pdf")
 
@@ -267,14 +266,13 @@ bbox={"facecolor": "white", "pad": 10})
     #Close the pdf file
     pdf_file.close()
 
-def song_duration_album():
+def song_duration_album(df):
     """ Create pdf file with bar charts for each album to answer the question 'which songs are 
     longest and which are shortest per album?' 
-    """
 
-    #Call the function that will read a csv file and create a dataframe with the proper 
-    #handling for the analysis.
-    df=read_csv()      
+    :param df: A handled df to used in the answer.
+    :type df: pandas.core.frame.DataFrame.
+    """
 
     #Creates a pdf object that will allow to save all figures in a single pdf file.
     pdf_file=PdfPages("../imgs/duration/Duration_per_album.pdf")
@@ -315,16 +313,14 @@ bbox={"facecolor": "white", "pad": 10})
     #Close the pdf file
     pdf_file.close()
 
-def song_popularity_all_times(n):
+def song_popularity_all_times(df,n):
     """Creates a bar chart with the n-most and n-least popular song of all times.
 
+    :param df: A handled df to used in the answer.
+    :type df: pandas.core.frame.DataFrame.
     :param n: How much elements for most/least popular to be plotted in the chart.
     :type n: int
     """    
-
-    #Call the function that will read a csv file and create a dataframe with the proper 
-    #handling for the analysis.
-    df = read_csv()
 
     #Creates a new df with the n most/least popular songs
     df_head_tail=head_and_tail(df,"tracks_popularity",n)
@@ -350,16 +346,14 @@ def song_popularity_all_times(n):
     plt.savefig("../imgs/popularity/Popularity_all_time.png", bbox_inches='tight')
     plt.close()
 
-def song_duration_all_times(n):
+def song_duration_all_times(df,n):
     """Creates a bar chart with the n-longest and n-shortest popular song of all times.
 
+    :param df: A handled df to used in the answer.
+    :type df: pandas.core.frame.DataFrame.
     :param n: How much elements for longest/shortest to be plotted in the chart.
     :type n: int
     """    
-
-    #Call the function that will read a csv file and create a dataframe with the proper 
-    #handling for the analysis.
-    df = read_csv()
 
     #Creates a new df with the n Logenst/Shortest songs
     df_head_tail=head_and_tail(df, "tracks_duration_ms",n)
@@ -388,14 +382,15 @@ def song_duration_all_times(n):
 
 
 
-def scatterplot():
+def scatterplot(df):
     """
     Creates a scatterplot to visualize any correlations between the popularity and the duration of the musics.
+    :param df: A handled df to used in the answer.
+    :type df: pandas.core.frame.DataFrame.
     """    
 
     #Call the function that will read a csv file and create a dataframe with the proper 
     #handling for the analysis.
-    df=read_csv()
 
     #Average and correlation rounded
     corr=round(df.corr()['tracks_duration']['tracks_popularity'],2)
@@ -450,13 +445,11 @@ of most songs, popular or not.""", ha="left", fontsize=25)
 
 #update the handling function to eliminate albuns with less than 3 musics  and other things
 #finish with trys and exceptions
-#find a way to remove the unecessary things from git hub
 
+#df=handled_df()
 
-song_duration_album()
-song_duration_all_times(4)
-song_popularity_album()
-song_popularity_all_times(4)
-scatterplot()
-
-
+# song_duration_album(df)
+# song_popularity_album(df)
+# song_duration_all_times(df,4)
+# song_popularity_all_times(df,4)
+#scatterplot(df)
