@@ -6,7 +6,7 @@ import pandas as pd
 import tagclouds as tag
 import multidict
 
-def dict_to_series(dict: dict | multidict.MultiDict) -> pd.Series:
+def dict_to_series(dict):
     """Receives a dictionary with words and frequency numbers and returns a Series object sorted by descending values
 
     :param dict: Dictionary with words as keys and numbers as values
@@ -19,7 +19,7 @@ def dict_to_series(dict: dict | multidict.MultiDict) -> pd.Series:
     series = pd.Series(values, indexes)
     return series.sort_values(ascending=False)
 
-def question_1(df: pd.DataFrame):
+def question_1(df):
     """Receives a DataFrame with musics information and print at the console wich words are the most common among the band's album's titles 
 
     :param df: DataFrame with one MultiIndex named 'Album' with the band's album's names as strings
@@ -34,7 +34,7 @@ def question_1(df: pd.DataFrame):
     else:
         print("\nThe most common words in the band's album's titles are:\n", albums_series[0:5].index.values, "\n\n", "="*60, sep="")
 
-def question_2(df: pd.DataFrame):
+def question_2(df):
     """Receives a DataFrame with musics information and print at the console wich words are the most common among the band's music's titles 
 
     :param df: DataFrame with one MultiIndex named 'Music' with the band's music's names as strings
@@ -48,7 +48,7 @@ def question_2(df: pd.DataFrame):
         print("\nThe most common words in the band's music's titles are:\n", titles_series[0:5].index.values, "\n\nGenerated TagCloud with most common words in music's titles\n\n","="*60, sep="")
         tag.generate_cloud_music_names(df)
 
-def question_3(df: pd.DataFrame):
+def question_3(df):
     """Receives a DataFrame with musics information and print at the console wich words are the most common among each album's music's lyrics 
 
     :param df: DataFrame with one MultiIndex named 'Album' and one column named 'Lyric' with the band's music's lyrics as strings
@@ -64,7 +64,7 @@ def question_3(df: pd.DataFrame):
     except KeyError as error:
         print(f"{error}, DataFrame must have an index named 'Album' and a column named 'Lyric' for question .")
         
-def question_4(df: pd.DataFrame):
+def question_4(df):
     """Receives a DataFrame with musics information and print at the console wich words are the most common among all music's lyrics 
 
     :param df: DataFrame with one column named 'Lyric' with the band's music's lyrics as strings
@@ -78,7 +78,7 @@ def question_4(df: pd.DataFrame):
         print("\nThe most common words in the lyrics from the whole band's discography are:\n", lyrics_freq[0:5].index.values, "\n\nGenerating TagCloud with all lyrics most common words...\n\n","="*60, sep="")
         tag.generate_cloud_lyrics(df)
 
-def question_5(df: pd.DataFrame):
+def question_5(df):
     """Receives a DataFrame with musics information and verify if at least half the albums have it's titles in some of it's music's lyrics  
 
     :param df: DataFrame with one MultiIndex named 'Album' and one column named 'Lyric' with the band's music's lyrics as strings
@@ -99,7 +99,7 @@ def question_5(df: pd.DataFrame):
         else:
             print("\nThis band's musics usually don't have the album's titles into it's lyrics.\n\n", "="*60,sep="")
 
-def question_6(df: pd.DataFrame):
+def question_6(df):
     """Receives a DataFrame with musics information and verify if at least half the musics have it's titles in it's own lyrics  
 
     :param df: DataFrame with one MultiIndex named 'Music' and one column named 'Lyric' with the band's music's lyrics as strings
