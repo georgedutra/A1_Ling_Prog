@@ -15,7 +15,7 @@ def dict_to_series(dict):
     """
     indexes = dict.keys()
     values = dict.values()
-    series = pd.Series(values, indexes)
+    series = pd.Series(values, indexes, dtype=int)
     return series.sort_values(ascending=False)
 
 def question_1(df):
@@ -44,7 +44,7 @@ def question_2(df):
     except KeyError as error:
         print(f"{error}, DataFrame must have an index named 'Music' for question 2.")
     else:
-        print("\nThe most common words in the band's music's titles are:\n", titles_series[0:5].index.values, "\n\nGenerated TagCloud with most common words in music's titles\n\n","="*60, sep="")
+        print("\nThe most common words in the band's music's titles are:\n", titles_series[0:5].index.values, "\n\nGenerating TagCloud with most common words in music's titles\n\n","="*60, sep="")
         tag.generate_cloud_music_names(df)
 
 def question_3(df):
@@ -57,7 +57,10 @@ def question_3(df):
         lyrics = tag.lyrics_albuns(df)
         for album in lyrics:
             words_freq = dict_to_series(tag.frequency(lyrics[album]))
-            print(f"\nThe most common words in the lyrics from the album {album} are:\n", words_freq[0:5].index.values,"\n\n","="*60, sep="")
+            if words_freq.size < 5:
+                print(f"\nThe album {album} doesn't have enough lyrics to be analyzed\n\n","="*60, sep="")
+            else:    
+                print(f"\nThe most common words in the lyrics from the album {album} are:\n", words_freq[0:5].index.values,"\n\n","="*60, sep="")
         tag.generate_cloud_albuns(df)
         print("\nGenerated TagCloud with each album's lyric's most common words.", "\n\n","="*60, sep="")
     except KeyError as error:
@@ -110,6 +113,7 @@ def question_6(df):
 
         for music in music_list:
             music_df = df.xs(music, level="Music")
+            music_df = music_df.astype("str")
             if music in music_df.iloc[0]["Lyrics"]:
                 ocurrencies += 1
     except KeyError as error:
