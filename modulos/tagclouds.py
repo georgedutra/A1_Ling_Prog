@@ -7,7 +7,7 @@ import wordcloud as wc
 import multidict
 import re
 
-def lyrics_all(df: pd.DataFrame) -> str:
+def lyrics_all(df):
     """Receives a DataFrame with musics and returns a string with every lyric concatenated
 
     :param df: musics DataFrame with one column 'Lyric' that has each music's lyrics as strings
@@ -32,7 +32,7 @@ def lyrics_all(df: pd.DataFrame) -> str:
     else:
         return concatenated_string
 
-def lyrics_albuns(df: pd.DataFrame) -> dict:
+def lyrics_albuns(df):
     """Receives a dataframe with musics and return a dictionary with all albums names and all music's lyrics in each album concatenated as a string.
 
     :param df: Dataframe with an 'Album' Multi-Index (the name of the album each music belongs to), and a 'Lyric' column with each song's lyrics as strings
@@ -59,7 +59,7 @@ def lyrics_albuns(df: pd.DataFrame) -> dict:
     else:
         return dict_lyrics
 
-def music_names(df: pd.DataFrame) -> str:
+def music_names(df):
     """Receives a dataframe with musics and returns a concatenated string with every song's names
 
     :param df: Dataframe with a Multi-Index called 'Music' (music's name)
@@ -83,7 +83,7 @@ def music_names(df: pd.DataFrame) -> str:
     else:    
         return concat_names
 
-def frequency(text: str) -> multidict.MultiDict:
+def frequency(text):
     """Receives a string, and returns a multidict with each word's number of ocurrencies in the string 
 
     :param text: A string with the text wished to count each word's frequency
@@ -115,7 +115,7 @@ def frequency(text: str) -> multidict.MultiDict:
         frequency_multidict.add(key, freq_dict[key])
     return frequency_multidict
 
-def frequency_generator(frequencies: multidict.MultiDict, file_name: str):
+def frequency_generator(frequencies, file_name):
     """Receives a frequency MultiDict, and creates a tagcloud named '{file_name}.png'
 
     :param frequencies: MultiDict with words as keys and frequencies as values
@@ -129,7 +129,7 @@ def frequency_generator(frequencies: multidict.MultiDict, file_name: str):
     cloud = wc.WordCloud(max_words=10000, max_font_size=40, relative_scaling=0).generate_from_frequencies(frequencies)
     cloud.to_file(f"images/{file_name}.png") 
 
-def generate_cloud_lyrics(df: pd.DataFrame):
+def generate_cloud_lyrics(df):
     """Receives a DataFrame with musics and generates a TagCloud image named 'all_lyrics_tagcloud.png' according to the most frequent words in all lyrics
 
     :param df: A DataFrame with a 'Lyric' column, with all music's lyrics as strings
@@ -138,7 +138,7 @@ def generate_cloud_lyrics(df: pd.DataFrame):
     frq_dict = frequency(lyrics_all(df))
     frequency_generator(frq_dict, "all_lyrics_tagcloud")
 
-def generate_cloud_albuns(df: pd.DataFrame):
+def generate_cloud_albuns(df):
     """Receives a DataFrame with musics and generates a TagCloud image named '{album_name}_tagcloud.png' according to the most frequent words in each album's lyrics
 
     :param df: A DataFrame with an index called 'Album' and a 'Lyric' column, with all music's lyrics as strings
@@ -150,7 +150,7 @@ def generate_cloud_albuns(df: pd.DataFrame):
         frq_dict = frequency(albuns[key])
         frequency_generator(frq_dict, f"{key}_tagcloud") 
 
-def generate_cloud_music_names(df: pd.DataFrame):
+def generate_cloud_music_names(df):
     """Receives a DataFrame with musics and generates a TagCloud image named 'names_tagcloud.png' according to the most frequent words in all music's titles
 
     :param df: A DataFrame with an index called 'Name', with all music's names as strings
