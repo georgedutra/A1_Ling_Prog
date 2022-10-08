@@ -1,3 +1,5 @@
+"""Module that contains the functions to answer the questions of the first group of questions."""
+
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.simplefilter(action='ignore', category=UserWarning)
