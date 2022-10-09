@@ -8,7 +8,11 @@ import group_1
 import group_2
 import group_3
 
-df_tnbh = pd.read_csv('TNBH_Data.csv',index_col=[0,1])
+try:
+    df_tnbh = pd.read_csv('TNBH_Data.csv',index_col=[0,1])
+except FileNotFoundError:
+    print("The file 'TNBH_Data.csv' for the 2 group was not found.")
+
 df = group_1.handled_df()
 df_albums = group_1.handled_df("Albums")
 
