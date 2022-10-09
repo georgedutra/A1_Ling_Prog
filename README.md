@@ -27,6 +27,8 @@ To answer questions 1 and 3, we choose to check which album had the bigger durat
 
 To answer question 2 we looked to se if there was any correlation between a song being explicit and it's popularity. 
 
+---
+
 The documentation can be found at: https://georgedutra.github.io/A1_Ling_Prog/index.html.
 
 To install the requirements:
