@@ -1,3 +1,5 @@
+"""Module that takes The Neighbourhood songs data from the Spotify API."""
+
 import requests
 import datetime
 from urllib.parse import urlencode

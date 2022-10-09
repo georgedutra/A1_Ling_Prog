@@ -1,3 +1,5 @@
+"""Module that contains the functions to answer the questions of the third group of questions."""
+
 import numpy as np
 
 # Question 1: Wich album has the higher music duration average?

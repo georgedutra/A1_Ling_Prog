@@ -1,3 +1,5 @@
+"""Module that takes The Neighbourhood songs data from the site letras.mus.br"""
+
 import requests
 from bs4 import BeautifulSoup
 

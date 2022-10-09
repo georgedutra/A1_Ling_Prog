@@ -1,3 +1,5 @@
+""" Module that creates the dataframe with the data from Spotify and the lyrics from Letras Mus Br."""
+
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 

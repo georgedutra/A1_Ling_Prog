@@ -1,5 +1,4 @@
-"""Module to answer the questions 1 to 6 from the group 2"""
-
+"""Module that contains the functions to answer the questions of the second group of questions."""
 
 import numpy as np
 import pandas as pd

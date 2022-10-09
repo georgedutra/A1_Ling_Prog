@@ -1,3 +1,5 @@
+"""Module that contains the functions to answer the questions of the first group of questions."""
+
 import warnings
 """This filter is due to an warning that is triggered by something that is not being 
 properly done on seaborn, but the documentation is no very clear what is the proper 
