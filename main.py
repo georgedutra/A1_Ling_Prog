@@ -48,6 +48,14 @@ group_1.scatterplot(df)
 print("Done!")
 print("============================================================")
 
+print("The last question, about the awards of the group's albums can't be answered properly,")
+print("because, as the group is of indie/rock music, they didn't received important awards.")
+print("We searched for the position of their songs in the charts of Billboard, but they are not in the top 10")
+print("of the main chart, being the maximum position 14. If we analyse the secondaries charts,")
+print("they reached a peak position of 13 with the song 'Wipped Out' in the Billboard top 200,")
+print("and peak position of 1 with 'Sweater Weather' in the Hot Rock & Alternative Songs.")
+print("============================================================")
+
 print("\n"*2)
 
 print("Group Question 2")
@@ -70,10 +78,12 @@ group_2.question_5(df_tnbh)
 print("Question 6:")
 group_2.question_6(df_tnbh)
 
+print("\n"*2)
+
 print("Group Question 3")
 print("================")
 print("Question 1:")
-group_3.question_1(df_tnbh)
+group_3.question_1(df_albums)
 
 print("Question 2:")
 group_3.question_2(df_tnbh)
