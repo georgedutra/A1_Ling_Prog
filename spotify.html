@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpotifyAPI &mdash; A1_Ling_Prog 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Letras" href="letras.html" />
+    <link rel="prev" title="Modules" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> A1_Ling_Prog
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SpotifyAPI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spotify_api.get_albums_data"><code class="docutils literal notranslate"><span class="pre">get_albums_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spotify_api.get_albums_tracks"><code class="docutils literal notranslate"><span class="pre">get_albums_tracks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spotify_api.get_tracks_data"><code class="docutils literal notranslate"><span class="pre">get_tracks_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spotify_api.make_request_albums"><code class="docutils literal notranslate"><span class="pre">make_request_albums()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spotify_api.make_request_track"><code class="docutils literal notranslate"><span class="pre">make_request_track()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spotify_api.make_request_tracks_from_album"><code class="docutils literal notranslate"><span class="pre">make_request_tracks_from_album()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="letras.html">Letras</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataframe_page.html">Dataframe Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tagclouds.html">Tagclouds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="group_1_questions.html">Group 1 Questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="group_2_questions.html">Group 2 Questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="group_3_questions.html">Group 3 Questions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">A1_Ling_Prog</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">Modules</a> &raquo;</li>
+      <li>SpotifyAPI</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/spotify.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-spotify_api">
+<span id="spotifyapi"></span><h1>SpotifyAPI<a class="headerlink" href="#module-spotify_api" title="Permalink to this heading"></a></h1>
+<p>Module that takes The Neighbourhood songs data from the Spotify API.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="spotify_api.get_albums_data">
+<span class="sig-prename descclassname"><span class="pre">spotify_api.</span></span><span class="sig-name descname"><span class="pre">get_albums_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spotify_api.get_albums_data" title="Permalink to this definition"></a></dt>
+<dd><p>Function that makes the request to get all the albums ids and names of an artist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Tuple with the names and ids.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spotify_api.get_albums_tracks">
+<span class="sig-prename descclassname"><span class="pre">spotify_api.</span></span><span class="sig-name descname"><span class="pre">get_albums_tracks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spotify_api.get_albums_tracks" title="Permalink to this definition"></a></dt>
+<dd><p>Function that makes the request to get all the tracks ids of an album.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Tracks id and in wich album it is in.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spotify_api.get_tracks_data">
+<span class="sig-prename descclassname"><span class="pre">spotify_api.</span></span><span class="sig-name descname"><span class="pre">get_tracks_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spotify_api.get_tracks_data" title="Permalink to this definition"></a></dt>
+<dd><p>Gets all the information we need about the tracks,</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The name, popularity, duration, explicit, track number and available markets of al tracks of an artist.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spotify_api.make_request_albums">
+<span class="sig-prename descclassname"><span class="pre">spotify_api.</span></span><span class="sig-name descname"><span class="pre">make_request_albums</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spotify</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artist_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spotify_api.make_request_albums" title="Permalink to this definition"></a></dt>
+<dd><p>Make the request using and spotify object and the artist id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>spotify</strong> (<em>SpotifyAPI object</em>) – SpotifyAPI object.</p></li>
+<li><p><strong>artist_id</strong> (<em>str</em>) – Artist ID on Spotify.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>All artist’s albums</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spotify_api.make_request_track">
+<span class="sig-prename descclassname"><span class="pre">spotify_api.</span></span><span class="sig-name descname"><span class="pre">make_request_track</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spotify</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">track_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spotify_api.make_request_track" title="Permalink to this definition"></a></dt>
+<dd><p>Make the request using and spotify object and the track id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>spotify</strong> (<em>SpotifyAPI object</em>) – SpotifyAPI object.</p></li>
+<li><p><strong>artist_id</strong> (<em>str</em>) – Track ID on Spotify.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>All track data.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spotify_api.make_request_tracks_from_album">
+<span class="sig-prename descclassname"><span class="pre">spotify_api.</span></span><span class="sig-name descname"><span class="pre">make_request_tracks_from_album</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spotify</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">album_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spotify_api.make_request_tracks_from_album" title="Permalink to this definition"></a></dt>
+<dd><p>Make the request using and spotify object and the album id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>spotify</strong> (<em>SpotifyAPI object</em>) – SpotifyAPI object.</p></li>
+<li><p><strong>artist_id</strong> (<em>str</em>) – Album ID on Spotify.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>All album’s tracks</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="Modules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="letras.html" class="btn btn-neutral float-right" title="Letras" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Bruno Lunardon, Georde Dutra, Zuilho Segundo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

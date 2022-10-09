@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Letras &mdash; A1_Ling_Prog 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Dataframe Module" href="dataframe_page.html" />
+    <link rel="prev" title="SpotifyAPI" href="spotify.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> A1_Ling_Prog
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="spotify.html">SpotifyAPI</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Letras</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mus_br_letras.get_nbhd_songs"><code class="docutils literal notranslate"><span class="pre">get_nbhd_songs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mus_br_letras.get_song_links"><code class="docutils literal notranslate"><span class="pre">get_song_links()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mus_br_letras.get_songs_data"><code class="docutils literal notranslate"><span class="pre">get_songs_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mus_br_letras.make_request"><code class="docutils literal notranslate"><span class="pre">make_request()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dataframe_page.html">Dataframe Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tagclouds.html">Tagclouds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="group_1_questions.html">Group 1 Questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="group_2_questions.html">Group 2 Questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="group_3_questions.html">Group 3 Questions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">A1_Ling_Prog</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">Modules</a> &raquo;</li>
+      <li>Letras</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/letras.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-mus_br_letras">
+<span id="letras"></span><h1>Letras<a class="headerlink" href="#module-mus_br_letras" title="Permalink to this heading"></a></h1>
+<p>Module that takes The Neighbourhood songs data from the site letras.mus.br</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="mus_br_letras.get_nbhd_songs">
+<span class="sig-prename descclassname"><span class="pre">mus_br_letras.</span></span><span class="sig-name descname"><span class="pre">get_nbhd_songs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mus_br_letras.get_nbhd_songs" title="Permalink to this definition"></a></dt>
+<dd><p>Function that takes The Neighbourhood songs data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The Neighbourhood songs data, the key is the song name.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mus_br_letras.get_song_links">
+<span class="sig-prename descclassname"><span class="pre">mus_br_letras.</span></span><span class="sig-name descname"><span class="pre">get_song_links</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup_page</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mus_br_letras.get_song_links" title="Permalink to this definition"></a></dt>
+<dd><p>Get all the links of musics in the main page of the artist in the site.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>soup_page</strong> (<em>bs4.BeautifulSoup</em>) – Parsed soup page.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Tuple with songs name and links.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mus_br_letras.get_songs_data">
+<span class="sig-prename descclassname"><span class="pre">mus_br_letras.</span></span><span class="sig-name descname"><span class="pre">get_songs_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">song_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">song_href</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mus_br_letras.get_songs_data" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the lyrics artist musics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>song_name</strong> (<em>list</em>) – List with all the artist song name</p></li>
+<li><p><strong>song_href</strong> (<em>list</em>) – List with all the artist song links</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary with songs lyrics</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mus_br_letras.make_request">
+<span class="sig-prename descclassname"><span class="pre">mus_br_letras.</span></span><span class="sig-name descname"><span class="pre">make_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">link</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mus_br_letras.make_request" title="Permalink to this definition"></a></dt>
+<dd><p>Function that makes request to take the html of a site.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>link</strong> (<em>str</em>) – Site link.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Parsed html of the page.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bs4.BeautifulSoup</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="spotify.html" class="btn btn-neutral float-left" title="SpotifyAPI" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dataframe_page.html" class="btn btn-neutral float-right" title="Dataframe Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Bruno Lunardon, Georde Dutra, Zuilho Segundo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

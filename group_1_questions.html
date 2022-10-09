@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Group 1 Questions &mdash; A1_Ling_Prog 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Group 2 Questions" href="group_2_questions.html" />
+    <link rel="prev" title="Tagclouds" href="tagclouds.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> A1_Ling_Prog
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="spotify.html">SpotifyAPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="letras.html">Letras</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataframe_page.html">Dataframe Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tagclouds.html">Tagclouds</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Group 1 Questions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#group_1.df_handling"><code class="docutils literal notranslate"><span class="pre">df_handling()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group_1.drop_duplicated_songs"><code class="docutils literal notranslate"><span class="pre">drop_duplicated_songs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group_1.handled_df"><code class="docutils literal notranslate"><span class="pre">handled_df()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group_1.head_and_tail"><code class="docutils literal notranslate"><span class="pre">head_and_tail()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group_1.ms_to_min"><code class="docutils literal notranslate"><span class="pre">ms_to_min()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group_1.palette_all_songs"><code class="docutils literal notranslate"><span class="pre">palette_all_songs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group_1.plt_changes"><code class="docutils literal notranslate"><span class="pre">plt_changes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group_1.plt_changes_all_times"><code class="docutils literal notranslate"><span class="pre">plt_changes_all_times()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group_1.scatterplot"><code class="docutils literal notranslate"><span class="pre">scatterplot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group_1.set_highlight_palette"><code class="docutils literal notranslate"><span class="pre">set_highlight_palette()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group_1.song_duration_album"><code class="docutils literal notranslate"><span class="pre">song_duration_album()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group_1.song_duration_all_times"><code class="docutils literal notranslate"><span class="pre">song_duration_all_times()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group_1.song_popularity_album"><code class="docutils literal notranslate"><span class="pre">song_popularity_album()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group_1.song_popularity_all_times"><code class="docutils literal notranslate"><span class="pre">song_popularity_all_times()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="group_2_questions.html">Group 2 Questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="group_3_questions.html">Group 3 Questions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">A1_Ling_Prog</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">Modules</a> &raquo;</li>
+      <li>Group 1 Questions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/group_1_questions.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-group_1">
+<span id="group-1-questions"></span><h1>Group 1 Questions<a class="headerlink" href="#module-group_1" title="Permalink to this heading"></a></h1>
+<p>Module that contains the functions to answer the questions of the first group of questions.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="group_1.df_handling">
+<span class="sig-prename descclassname"><span class="pre">group_1.</span></span><span class="sig-name descname"><span class="pre">df_handling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identifier</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#group_1.df_handling" title="Permalink to this definition"></a></dt>
+<dd><p>This function handles the Dataframe by dropping the unwanted albums and 
+creating a column for the duration in minutes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.core.frame.DataFrame</em>) – A dataFrame</p></li>
+<li><p><strong>identifier</strong> (<em>str</em>) – An identifier used to select what albuns will not be in the analysis</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dataframe handled</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.core.frame.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="group_1.drop_duplicated_songs">
+<span class="sig-prename descclassname"><span class="pre">group_1.</span></span><span class="sig-name descname"><span class="pre">drop_duplicated_songs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#group_1.drop_duplicated_songs" title="Permalink to this definition"></a></dt>
+<dd><p>Drops all the songs that repeat throughout the albums.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pandas.core.frame.DataFrame</em>) – a df with repeated indexes on a level of MultiIndex</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a df without the repeated indexes</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.core.frame.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="group_1.handled_df">
+<span class="sig-prename descclassname"><span class="pre">group_1.</span></span><span class="sig-name descname"><span class="pre">handled_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#group_1.handled_df" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a dataframe from a csv to be handled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>identifier</strong> (<em>str</em><em>, </em><em>optional</em>) – An identifier used to select what albuns will not be in the analysis, defaults to “”</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The handled df that will be used in the questions.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.core.frame.DataFrama</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="group_1.head_and_tail">
+<span class="sig-prename descclassname"><span class="pre">group_1.</span></span><span class="sig-name descname"><span class="pre">head_and_tail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#group_1.head_and_tail" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new_df with the head and tail of the df sorted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.core.frame.DataFrame</em>) – A df that will be ordered and then sliced</p></li>
+<li><p><strong>column</strong> (<em>str</em>) – A string thats is used to know from where the function is being called</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – a number to be used as parameter for the head and tail method from pandas</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A new_df with n items from the head and n items from the tail</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.core.frame.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="group_1.ms_to_min">
+<span class="sig-prename descclassname"><span class="pre">group_1.</span></span><span class="sig-name descname"><span class="pre">ms_to_min</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#group_1.ms_to_min" title="Permalink to this definition"></a></dt>
+<dd><p>A simple millisecond to min converter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ms</strong> (<em>Int</em>) – The number of Miliseconds to be converted</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The number of minutes.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="group_1.palette_all_songs">
+<span class="sig-prename descclassname"><span class="pre">group_1.</span></span><span class="sig-name descname"><span class="pre">palette_all_songs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'turquoise'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">worst</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'red'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#group_1.palette_all_songs" title="Permalink to this definition"></a></dt>
+<dd><p>Creats a list to use as palette to highlight the n-max and n-min of each case 
+in the questions 3 and 4.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<em>int</em>) – The integer to be used as the number of max’s and min’s</p></li>
+<li><p><strong>best</strong> (<em>str</em><em>, </em><em>optional</em>) – The color to represent the max’s, defaults to “turquoise”</p></li>
+<li><p><strong>worst</strong> (<em>str</em><em>, </em><em>optional</em>) – The color to represent the min’s, defaults to “red”</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list what will be used as palette.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="group_1.plt_changes">
+<span class="sig-prename descclassname"><span class="pre">group_1.</span></span><span class="sig-name descname"><span class="pre">plt_changes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">album</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#group_1.plt_changes" title="Permalink to this definition"></a></dt>
+<dd><p>Make changes on the plots for all questions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>plot</strong> (<em>matplotlib.axes._subplots.AxesSubplot</em>) – The plot that will receive the changes.</p></li>
+<li><p><strong>x_label</strong> (<em>str</em>) – The label to be used on the x-axis</p></li>
+<li><p><strong>y_label</strong> (<em>str</em>) – The label to be used on the y-axis</p></li>
+<li><p><strong>album</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the album to used as title of the chart, defaults to ‘’</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="group_1.plt_changes_all_times">
+<span class="sig-prename descclassname"><span class="pre">group_1.</span></span><span class="sig-name descname"><span class="pre">plt_changes_all_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">best_legend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">worst_legend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">worst_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'red'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'turquoise'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#group_1.plt_changes_all_times" title="Permalink to this definition"></a></dt>
+<dd><p>Make especial changes on the plot of questions 3 and 4.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>best_legend</strong> (<em>str</em>) – A string to be used in the legend to represet the longest/most popular songs</p></li>
+<li><p><strong>worst_legend</strong> (<em>str</em>) – A string to be used in the legend to represet the shortest/least popular songs</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – The title of the chart</p></li>
+<li><p><strong>worst_color</strong> (<em>str</em><em>, </em><em>optional</em>) – The color to represent the shortest/least popular songs in the legend, defaults to “red”</p></li>
+<li><p><strong>best_color</strong> (<em>str</em><em>, </em><em>optional</em>) – The color to represent the shortest/least popular songs in the legend, defaults to “turquoise”</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="group_1.scatterplot">
+<span class="sig-prename descclassname"><span class="pre">group_1.</span></span><span class="sig-name descname"><span class="pre">scatterplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#group_1.scatterplot" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a scatterplot to visualize any correlations between the popularity and the duration of the musics.
+:param df: A handled df to used in the answer.
+:type df: pandas.core.frame.DataFrame.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="group_1.set_highlight_palette">
+<span class="sig-prename descclassname"><span class="pre">group_1.</span></span><span class="sig-name descname"><span class="pre">set_highlight_palette</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'turquoise'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'red'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lightgrey'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#group_1.set_highlight_palette" title="Permalink to this definition"></a></dt>
+<dd><p>Creats a list to use as palette to highlight the max and min of each case in the questions 1 
+and 2.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>column</strong> (<em>pandas.core.series.Series</em>) – The column</p></li>
+<li><p><strong>max_color</strong> (<em>str</em><em>, </em><em>optional</em>) – A color to represent the max of the series, defaults to ‘turquoise’</p></li>
+<li><p><strong>min_color</strong> (<em>str</em><em>, </em><em>optional</em>) – A color to represent the min of the series, defaults to “red”</p></li>
+<li><p><strong>other_color</strong> (<em>str</em><em>, </em><em>optional</em>) – a color to represent all other elements of the series, defaults to ‘lightgrey’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list that will be used as palette</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="group_1.song_duration_album">
+<span class="sig-prename descclassname"><span class="pre">group_1.</span></span><span class="sig-name descname"><span class="pre">song_duration_album</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#group_1.song_duration_album" title="Permalink to this definition"></a></dt>
+<dd><p>Create pdf file with bar charts for each album to answer the question ‘which songs are 
+longest and which are shortest per album?’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pandas.core.frame.DataFrame.</em>) – A handled df to used in the answer.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="group_1.song_duration_all_times">
+<span class="sig-prename descclassname"><span class="pre">group_1.</span></span><span class="sig-name descname"><span class="pre">song_duration_all_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#group_1.song_duration_all_times" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a bar chart with the n-longest and n-shortest popular song of all times.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.core.frame.DataFrame.</em>) – A handled df to used in the answer.</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – How much elements for longest/shortest to be plotted in the chart.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="group_1.song_popularity_album">
+<span class="sig-prename descclassname"><span class="pre">group_1.</span></span><span class="sig-name descname"><span class="pre">song_popularity_album</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#group_1.song_popularity_album" title="Permalink to this definition"></a></dt>
+<dd><p>Create a pdf file with bar charts for each album to answer the question ‘which songs are the most 
+and least popular per album?
+:param df: A handled df to used in the answer.
+:type df: pandas.core.frame.DataFrame.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="group_1.song_popularity_all_times">
+<span class="sig-prename descclassname"><span class="pre">group_1.</span></span><span class="sig-name descname"><span class="pre">song_popularity_all_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#group_1.song_popularity_all_times" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a bar chart with the n-most and n-least popular song of all times.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.core.frame.DataFrame.</em>) – A handled df to used in the answer.</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – How much elements for most/least popular to be plotted in the chart.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tagclouds.html" class="btn btn-neutral float-left" title="Tagclouds" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="group_2_questions.html" class="btn btn-neutral float-right" title="Group 2 Questions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Bruno Lunardon, Georde Dutra, Zuilho Segundo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
